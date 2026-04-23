@@ -1,0 +1,83 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0A0B0C"/>
+  <rect x="28" y="28" width="1544" height="844" stroke="#2A2F34" stroke-width="2"/>
+  <rect x="56" y="56" width="1488" height="76" fill="#0D0F11" stroke="#2A2F34"/>
+  <text x="92" y="92" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="30" font-weight="700">ARENA BREAKOUT</text>
+  <text x="92" y="122" fill="#9CA3AF" font-family="Arial, sans-serif" font-size="18" letter-spacing="4">DARK ZONE · IDENTITY PROFILE</text>
+  <circle cx="70" cy="86" r="8" fill="#CA4D32"/>
+  <text x="1360" y="95" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="18" letter-spacing="5">TEST</text>
+  <text x="1450" y="95" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="18" letter-spacing="5">CODEX</text>
+
+  <rect x="56" y="152" width="420" height="610" fill="#111316" stroke="#2A2F34"/>
+  <text x="84" y="214" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="4">DARK ZONE · IDENTITY PROFILE</text>
+  <text x="84" y="338" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="96" font-weight="800">你是</text>
+  <text x="84" y="460" fill="#CA4D32" font-family="Arial, sans-serif" font-size="92" font-weight="800">哪一种暗区</text>
+  <text x="84" y="568" fill="#CA4D32" font-family="Arial, sans-serif" font-size="92" font-weight="800">人？</text>
+  <text x="84" y="640" fill="#D1D5DB" font-family="Arial, sans-serif" font-size="18">20 道题，判断你的游戏人格。</text>
+  <text x="84" y="672" fill="#D1D5DB" font-family="Arial, sans-serif" font-size="18">Question set and wording may continue to evolve.</text>
+  <rect x="84" y="710" width="200" height="58" fill="#CA4D32"/>
+  <text x="114" y="747" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="3">START TEST</text>
+  <rect x="304" y="710" width="200" height="58" fill="none" stroke="#596671"/>
+  <text x="336" y="747" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">CODEX</text>
+
+  <rect x="524" y="152" width="988" height="610" rx="16" fill="#14181B" stroke="#3D444A"/>
+  <text x="560" y="206" fill="#CA4D32" font-family="Arial, sans-serif" font-size="22" font-weight="700"># Directional Mockup</text>
+  <text x="560" y="272" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="62" font-weight="800">幽影猎手</text>
+  <text x="560" y="326" fill="#CA4D32" font-family="Arial, sans-serif" font-size="34" font-weight="700">ISTP-T</text>
+  <text x="560" y="392" fill="#D1D5DB" font-family="Arial, sans-serif" font-size="22">“不喜欢正面冲突，但我擅长解决它。”</text>
+
+  <rect x="560" y="452" width="270" height="66" rx="10" fill="#1B1F23" stroke="#5A4634"/>
+  <text x="590" y="494" fill="#E5E7EB" font-family="Arial, sans-serif" font-size="24">热成像 H4</text>
+  <rect x="560" y="528" width="270" height="66" rx="10" fill="#1B1F23" stroke="#5A4634"/>
+  <text x="590" y="570" fill="#E5E7EB" font-family="Arial, sans-serif" font-size="24">增强视觉</text>
+  <rect x="560" y="604" width="270" height="66" rx="10" fill="#1B1F23" stroke="#5A4634"/>
+  <text x="590" y="646" fill="#E5E7EB" font-family="Arial, sans-serif" font-size="24">100 发弹匣</text>
+
+  <circle cx="1145" cy="310" r="120" fill="#1D2125" stroke="#596671" stroke-width="3"/>
+  <circle cx="1145" cy="310" r="92" fill="none" stroke="#6B7280" stroke-dasharray="4 8"/>
+  <text x="1070" y="318" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="28" font-weight="700">Thermal</text>
+  <text x="1095" y="350" fill="#9CA3AF" font-family="Arial, sans-serif" font-size="18">support panel</text>
+
+  <rect x="1250" y="430" width="190" height="240" rx="10" fill="#20252A" stroke="#CA4D32" stroke-width="3"/>
+  <text x="1280" y="620" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="32" font-weight="700">幽影猎手</text>
+  <text x="1280" y="654" fill="#CA4D32" font-family="Arial, sans-serif" font-size="24" font-weight="700">ISTP-T</text>
+  <rect x="1460" y="430" width="120" height="240" rx="10" fill="#171A1D" stroke="#3D444A"/>
+  <rect x="1600" y="430" width="0" height="240" rx="10" fill="#171A1D"/>
+
+  <rect x="560" y="700" width="880" height="82" rx="12" fill="#1A1E22" stroke="#5A4634"/>
+  <text x="588" y="734" fill="#CA4D32" font-family="Arial, sans-serif" font-size="24" font-weight="700">人格特征 / Persona Traits</text>
+  <rect x="588" y="746" width="130" height="28" rx="14" fill="#3A342D"/>
+  <text x="608" y="766" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="15">独立执行</text>
+  <rect x="732" y="746" width="130" height="28" rx="14" fill="#3A342D"/>
+  <text x="752" y="766" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="15">冷静精准</text>
+  <rect x="876" y="746" width="130" height="28" rx="14" fill="#3A342D"/>
+  <text x="896" y="766" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="15">隐蔽优先</text>
+  <rect x="1020" y="746" width="130" height="28" rx="14" fill="#3A342D"/>
+  <text x="1040" y="766" fill="#F3F4F6" font-family="Arial, sans-serif" font-size="15">风险计算</text>
+
+  <rect x="880" y="188" width="250" height="74" rx="8" fill="#1A1E22" stroke="#CA4D32"/>
+  <text x="905" y="220" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">人物单独抠出</text>
+  <text x="905" y="248" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">与背景光影融合</text>
+
+  <rect x="1328" y="212" width="200" height="90" rx="8" fill="#1A1E22" stroke="#CA4D32"/>
+  <text x="1350" y="248" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">热成像圆图</text>
+  <text x="1350" y="276" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">做辅助信息</text>
+
+  <rect x="360" y="502" width="180" height="96" rx="8" fill="#1A1E22" stroke="#CA4D32"/>
+  <text x="385" y="540" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">左侧 icon 改成</text>
+  <text x="385" y="568" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">标签 / 芯片样式</text>
+
+  <rect x="1320" y="612" width="220" height="96" rx="8" fill="#1A1E22" stroke="#CA4D32"/>
+  <text x="1345" y="650" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">提供 2-3 张缩略卡</text>
+  <text x="1345" y="678" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">形成图鉴 / 轮播系统</text>
+
+  <rect x="760" y="806" width="360" height="56" rx="8" fill="#1A1E22" stroke="#CA4D32"/>
+  <text x="786" y="842" fill="#CA4D32" font-family="Arial, sans-serif" font-size="20" font-weight="700">背景热成图 2 场景虚化，保持整体氛围一致</text>
+
+  <path d="M1008 262C1008 308 1030 332 1060 342" stroke="#CA4D32" stroke-width="3"/>
+  <path d="M1410 300C1390 330 1360 350 1300 366" stroke="#CA4D32" stroke-width="3"/>
+  <path d="M540 550C585 550 605 550 620 528" stroke="#CA4D32" stroke-width="3"/>
+  <path d="M1320 664C1280 648 1245 636 1210 620" stroke="#CA4D32" stroke-width="3"/>
+  <path d="M930 806C930 792 930 788 930 782" stroke="#CA4D32" stroke-width="3"/>
+  <text x="1150" y="840" fill="#F97316" font-family="Arial, sans-serif" font-size="22" font-weight="700">欢迎提意见 / Feedback Welcome</text>
+</svg>
