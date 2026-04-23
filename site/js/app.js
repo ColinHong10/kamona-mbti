@@ -114,7 +114,7 @@
 
       // 页头
       page.innerHTML = `
-        <div class="q-eyebrow">Part ${pageIdx + 1} / ${TOTAL_PAGES} · 第 ${start+1}–${end} 题</div>
+        <div class="q-eyebrow">PART ${String(pageIdx + 1).padStart(2,'0')} / ${String(TOTAL_PAGES).padStart(2,'0')} · Q${start+1}–Q${end}</div>
       `;
 
       // 题目列表
@@ -158,13 +158,13 @@
       nav.className = 'q-nav';
       nav.innerHTML = `
         <button class="btn-ghost" id="q-prev" ${pageIdx === 0 ? 'disabled' : ''}>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-          上一页
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span>PREV</span>
         </button>
-        <div class="q-nav-meta">本页 <span id="q-page-done">0</span>/<span>${end-start}</span> 已答</div>
+        <div class="q-nav-meta">PROGRESS · <span id="q-page-done">0</span>/<span>${end-start}</span></div>
         <button class="btn-primary" id="q-next" disabled>
-          <span>${pageIdx === TOTAL_PAGES - 1 ? '提交并查看结果' : '下一页'}</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <span>${pageIdx === TOTAL_PAGES - 1 ? '[ CONFIRM · 查看结果 ]' : '[ NEXT ]'}</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       `;
       page.appendChild(nav);
@@ -299,10 +299,10 @@
     const html = `
       <section class="result-hero">
         <div>
-          <div class="result-eyebrow">You are · 测试结果 <span class="result-code">${p.code}</span></div>
+          <div class="result-eyebrow">IDENTITY CONFIRMED · 测试结果 <span class="result-code">${p.code}</span></div>
           <h1 class="result-name">${p.cn}</h1>
           <div class="result-en">${p.en}</div>
-          <div class="result-rarity"><span class="rd rd--${p.rarity}"></span> ${p.rarity}款</div>
+          <div class="result-rarity"><span class="rd rd--${p.rarity}"></span> ${p.rarity === '普通' ? 'COMMON' : p.rarity === '稀有' ? 'RARE' : 'HIDDEN'} · ${p.rarity}款</div>
           <div class="result-punch">"${p.punch}"</div>
           <p class="result-summary">${p.summary}</p>
           <div class="result-tags">${p.tag.split(' ').map(t=>`<span class="tag">${t}</span>`).join('')}</div>
@@ -316,7 +316,7 @@
       </section>
 
       <section class="result-bars">
-        <h3>人格分布 · Persona Distribution</h3>
+        <h3>PERSONA DISTRIBUTION · 人格分布</h3>
         ${top5.map(([id, v]) => {
           const pct = Math.round((v / top5[0][1]) * 100);
           const per = PERSONAS[id];
@@ -331,15 +331,15 @@
 
       <section class="result-pair">
         <div class="pair-card">
-          <h4 class="ok">◆ 适合组队</h4>
-          <p class="pair-sub">和这些人一起上线最容易活着撤离</p>
+          <h4 class="ok">SQUAD COMPATIBLE · 适合组队</h4>
+          <p class="pair-sub">和这些人一起上线，最容易活着撤离。</p>
           <div class="pair-list">
             ${p.match.map(id => pairItem(id)).join('')}
           </div>
         </div>
         <div class="pair-card">
-          <h4 class="no">◆ 建议回避</h4>
-          <p class="pair-sub">和这些人一起开黑，容易直接结束友情</p>
+          <h4 class="no">AVOID · 建议回避</h4>
+          <p class="pair-sub">和这些人一起开黑，容易直接结束友情。</p>
           <div class="pair-list">
             ${p.clash.map(id => pairItem(id)).join('')}
           </div>
@@ -348,11 +348,11 @@
 
       <section class="result-actions">
         <button class="btn-primary" id="r-retest">
-          <span>再测一次</span>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 109-9M3 3v6h6"/></svg>
+          <span>[ RETRY · 再测一次 ]</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 12a9 9 0 109-9M3 3v6h6"/></svg>
         </button>
-        <button class="btn-ghost" id="r-codex">查看图鉴</button>
-        <button class="btn-ghost" id="r-share">复制分享文案</button>
+        <button class="btn-ghost" id="r-codex">[ CODEX · 图鉴 ]</button>
+        <button class="btn-ghost" id="r-share">[ SHARE · 复制分享文案 ]</button>
       </section>
     `;
     $('#result-wrap').innerHTML = html;
@@ -434,7 +434,7 @@
       </button>
       <div class="m-hero"><img src="${p.img}" alt=""/></div>
       <div class="m-body">
-        <div class="result-eyebrow">${p.code} · ${p.rarity}款</div>
+        <div class="result-eyebrow">${p.code} · ${p.rarity === '普通' ? 'COMMON' : p.rarity === '稀有' ? 'RARE' : 'HIDDEN'}</div>
         <h2 class="m-name">${p.cn}</h2>
         <div class="m-en">${p.en}</div>
         <div class="m-punch">"${p.punch}"</div>
@@ -444,11 +444,11 @@
         </ul>
         <div class="result-pair" style="margin-top:24px">
           <div class="pair-card">
-            <h4 class="ok">◆ 适合组队</h4>
+            <h4 class="ok">SQUAD COMPATIBLE · 适合组队</h4>
             <div class="pair-list">${p.match.map(pairItem).join('')}</div>
           </div>
           <div class="pair-card">
-            <h4 class="no">◆ 建议回避</h4>
+            <h4 class="no">AVOID · 建议回避</h4>
             <div class="pair-list">${p.clash.map(pairItem).join('')}</div>
           </div>
         </div>
@@ -476,7 +476,7 @@
     if (!el){
       el = document.createElement('div');
       el.id = '__toast';
-      el.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);padding:12px 20px;background:rgba(255,255,255,.95);color:#0a0a0a;font-size:14px;border-radius:999px;z-index:200;box-shadow:0 20px 50px rgba(0,0,0,.4);opacity:0;transition:opacity 240ms ease, transform 240ms ease;';
+      el.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);padding:12px 22px;background:#0f1114;color:#fff;font-family:\"Refrigerator\",\"RobotoCondensed\",sans-serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;border:1px solid #ca4d32;z-index:200;box-shadow:0 20px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(202,77,50,.15);opacity:0;transition:opacity 240ms ease, transform 240ms ease;';
       document.body.appendChild(el);
     }
     el.textContent = msg;
