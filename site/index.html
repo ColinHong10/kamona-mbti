@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"/>
+<meta name="theme-color" content="#0a0a0c"/>
+<title>暗区人格 · Dark Zone MBTI</title>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- 背景层：噪点 + 光斑 -->
+<div class="bg">
+  <div class="bg-grain"></div>
+  <div class="bg-orb bg-orb--a"></div>
+  <div class="bg-orb bg-orb--b"></div>
+  <div class="bg-orb bg-orb--c"></div>
+</div>
+
+<!-- 顶部导航 -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-dot"></span>
+      <span class="nav-title">暗区人格 <em>Dark Zone MBTI</em></span>
+    </div>
+    <nav class="nav-links">
+      <a href="#" data-goto="cover">测试</a>
+      <a href="#" data-goto="codex">图鉴</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ============ 封面 ============ -->
+  <section class="screen screen--cover" data-screen="cover">
+    <div class="cover-wrap">
+      <div class="cover-eyebrow">Dark Zone · Identity Profile</div>
+      <h1 class="cover-title">
+        你是<br/>
+        <span class="grad">哪一种暗区人？</span>
+      </h1>
+      <p class="cover-sub">
+        20 道题，判断你的游戏人格。<br/>
+        从打腿流信徒到隐藏款暗区顶点，18 种面孔，总有一款是你。
+      </p>
+
+      <button class="btn-primary cover-cta" id="btn-start">
+        <span>开始测试</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+
+      <button class="btn-ghost cover-ghost" data-goto="codex">
+        先看图鉴
+      </button>
+
+      <div class="cover-meta">
+        <div><strong>18</strong><span>种人格</span></div>
+        <div><strong>20</strong><span>道题</span></div>
+        <div><strong>≈3</strong><span>分钟</span></div>
+      </div>
+
+      <!-- 漂浮预览图 -->
+      <div class="cover-float" aria-hidden="true">
+        <div class="float-card f1"><img src="assets/personas/p5.png" alt=""/></div>
+        <div class="float-card f2"><img src="assets/personas/p2.png" alt=""/></div>
+        <div class="float-card f3"><img src="assets/personas/p14.png" alt=""/></div>
+        <div class="float-card f4"><img src="assets/personas/p8.png" alt=""/></div>
+        <div class="float-card f5"><img src="assets/personas/p11.png" alt=""/></div>
+        <div class="float-card f6"><img src="assets/personas/p18.png" alt=""/></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 答题 ============ -->
+  <section class="screen screen--quiz" data-screen="quiz" hidden>
+    <div class="quiz-top">
+      <button class="icon-btn" id="btn-back" aria-label="上一题">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="quiz-progress">
+        <span class="qp-count"><em id="q-idx">1</em> / <span id="q-total">20</span></span>
+        <div class="qp-bar"><div class="qp-fill" id="q-fill"></div></div>
+      </div>
+      <button class="icon-btn" id="btn-exit" aria-label="退出">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="quiz-body" id="quiz-body">
+      <!-- JS 渲染 -->
+    </div>
+  </section>
+
+  <!-- ============ 结果 ============ -->
+  <section class="screen screen--result" data-screen="result" hidden>
+    <div class="result-wrap" id="result-wrap">
+      <!-- JS 渲染 -->
+    </div>
+  </section>
+
+  <!-- ============ 图鉴 ============ -->
+  <section class="screen screen--codex" data-screen="codex" hidden>
+    <div class="codex-head">
+      <div class="codex-eyebrow">Persona Codex · 人格图鉴</div>
+      <h2 class="codex-title">18 种暗区人格</h2>
+      <p class="codex-sub">点击任意卡片查看详细人格档案。</p>
+      <div class="codex-filter" id="codex-filter">
+        <button class="chip active" data-filter="all">全部</button>
+        <button class="chip" data-filter="普通">普通</button>
+        <button class="chip" data-filter="稀有">稀有</button>
+        <button class="chip" data-filter="隐藏">隐藏</button>
+      </div>
+    </div>
+    <div class="codex-grid" id="codex-grid"></div>
+  </section>
+
+</main>
+
+<!-- 人格详情弹层 -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-card" id="modal-card"></div>
+</div>
+
+<footer class="foot">
+  <div>Made with ♥ for Dark Zone runners · 仅供娱乐</div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
