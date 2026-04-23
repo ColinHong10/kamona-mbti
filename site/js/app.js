@@ -74,6 +74,12 @@
       currentScreen = name;
       isAnimating = false;
     }, DUR);
+
+    // 切换 body class（给 bg-kv 等依赖当前 screen 的样式使用）
+    document.body.classList.toggle('on-cover',  name === 'cover');
+    document.body.classList.toggle('on-quiz',   name === 'quiz');
+    document.body.classList.toggle('on-result', name === 'result');
+    document.body.classList.toggle('on-codex',  name === 'codex');
   }
 
   $$('[data-goto]').forEach(a => a.addEventListener('click', e => {
@@ -311,7 +317,9 @@
           </ul>
         </div>
         <div class="result-img">
-          <img src="${p.img}" alt="${p.cn}"/>
+          <div class="r-img-wrap">
+            <img src="${p.img}" alt="${p.cn}"/>
+          </div>
         </div>
       </section>
 
@@ -510,5 +518,6 @@
     else el.classList.remove('is-active');
   });
   currentScreen = 'cover';
+  document.body.classList.add('on-cover');
   renderCodex();
 })();
