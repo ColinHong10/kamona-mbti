@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"/>
-<meta name="theme-color" content="#0a0a0c"/>
-<title>暗区人格 · Dark Zone MBTI</title>
+<meta name="theme-color" content="#0a0b0c"/>
+<title>暗区人格 · DARK ZONE MBTI</title>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
-<!-- 背景层：噪点 + 光斑 -->
+<!-- 背景层：KV + 网格 + 扫描线 + 噪点 -->
 <div class="bg">
+  <div class="bg-kv"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-scan"></div>
   <div class="bg-grain"></div>
-  <div class="bg-orb bg-orb--a"></div>
-  <div class="bg-orb bg-orb--b"></div>
-  <div class="bg-orb bg-orb--c"></div>
 </div>
 
 <!-- 顶部导航 -->
@@ -22,11 +22,14 @@
   <div class="nav-inner">
     <div class="nav-brand">
       <span class="nav-dot"></span>
-      <span class="nav-title">暗区人格 <em>Dark Zone MBTI</em></span>
+      <span class="nav-title">
+        ARENA BREAKOUT
+        <em>Dark Zone · Identity Profile</em>
+      </span>
     </div>
     <nav class="nav-links">
-      <a href="#" data-goto="cover">测试</a>
-      <a href="#" data-goto="codex">图鉴</a>
+      <a href="#" data-goto="cover">TEST</a>
+      <a href="#" data-goto="codex">CODEX</a>
     </nav>
   </div>
 </header>
@@ -35,8 +38,9 @@
 
   <!-- ============ 封面 ============ -->
   <section class="screen screen--cover" data-screen="cover">
+    <div class="hud-corners"><span></span><span></span></div>
     <div class="cover-wrap">
-      <div class="cover-eyebrow">Dark Zone · Identity Profile</div>
+      <div class="cover-eyebrow">DARK ZONE · IDENTITY PROFILE</div>
       <h1 class="cover-title">
         你是<br/>
         <span class="grad">哪一种暗区人？</span>
@@ -46,29 +50,20 @@
         从打腿流信徒到隐藏款暗区顶点，18 种面孔，总有一款是你。
       </p>
 
-      <button class="btn-primary cover-cta" id="btn-start">
-        <span>开始测试</span>
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </button>
-
-      <button class="btn-ghost cover-ghost" data-goto="codex">
-        先看图鉴
-      </button>
-
-      <div class="cover-meta">
-        <div><strong>18</strong><span>种人格</span></div>
-        <div><strong>20</strong><span>道题</span></div>
-        <div><strong>≈3</strong><span>分钟</span></div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+        <button class="btn-primary cover-cta" id="btn-start">
+          <span>[ START TEST ]</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <button class="btn-ghost cover-ghost" data-goto="codex">
+          [ CODEX ] · 先看图鉴
+        </button>
       </div>
 
-      <!-- 漂浮预览图 -->
-      <div class="cover-float" aria-hidden="true">
-        <div class="float-card f1"><img src="assets/personas/p5.png" alt=""/></div>
-        <div class="float-card f2"><img src="assets/personas/p2.png" alt=""/></div>
-        <div class="float-card f3"><img src="assets/personas/p14.png" alt=""/></div>
-        <div class="float-card f4"><img src="assets/personas/p8.png" alt=""/></div>
-        <div class="float-card f5"><img src="assets/personas/p11.png" alt=""/></div>
-        <div class="float-card f6"><img src="assets/personas/p18.png" alt=""/></div>
+      <div class="cover-meta">
+        <div><strong>18</strong><span>PERSONAS · 种人格</span></div>
+        <div><strong>20</strong><span>QUESTIONS · 道题</span></div>
+        <div><strong>≈3</strong><span>MINUTES · 分钟</span></div>
       </div>
     </div>
   </section>
@@ -103,14 +98,14 @@
   <!-- ============ 图鉴 ============ -->
   <section class="screen screen--codex" data-screen="codex" hidden>
     <div class="codex-head">
-      <div class="codex-eyebrow">Persona Codex · 人格图鉴</div>
+      <div class="codex-eyebrow">PERSONA CODEX</div>
       <h2 class="codex-title">18 种暗区人格</h2>
       <p class="codex-sub">点击任意卡片查看详细人格档案。</p>
       <div class="codex-filter" id="codex-filter">
-        <button class="chip active" data-filter="all">全部</button>
-        <button class="chip" data-filter="普通">普通</button>
-        <button class="chip" data-filter="稀有">稀有</button>
-        <button class="chip" data-filter="隐藏">隐藏</button>
+        <button class="chip active" data-filter="all">ALL 全部</button>
+        <button class="chip" data-filter="普通">COMMON 普通</button>
+        <button class="chip" data-filter="稀有">RARE 稀有</button>
+        <button class="chip" data-filter="隐藏">HIDDEN 隐藏</button>
       </div>
     </div>
     <div class="codex-grid" id="codex-grid"></div>
@@ -125,7 +120,7 @@
 </div>
 
 <footer class="foot">
-  <div>Made with ♥ for Dark Zone runners · 仅供娱乐</div>
+  <div>ARENA BREAKOUT · DARK ZONE MBTI · MADE FOR RUNNERS · FAN-MADE FOR FUN</div>
 </footer>
 
 <script src="js/data.js"></script>
