@@ -520,4 +520,132 @@
   currentScreen = 'cover';
   document.body.classList.add('on-cover');
   renderCodex();
+
+  /* ============ 封面 · 人格橱窗 Showcase ============ */
+  const PERSONA_LIST = Object.values(PERSONAS);
+  const RARITY_EN = { '普通':'COMMON', '稀有':'RARE', '隐藏':'HIDDEN' };
+  const SHOWCASE_PAGE_SIZE = 5;
+  const TOTAL_SHOWCASE_PAGES = Math.ceil(PERSONA_LIST.length / SHOWCASE_PAGE_SIZE);
+  let showcaseIdx = Math.floor(Math.random() * PERSONA_LIST.length);
+
+  const escHtml = (s) => String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+
+  function renderShowcaseCard(){
+    const card = document.getElementById('ps-card');
+    if (!card) return;
+    const p = PERSONA_LIST[showcaseIdx];
+    const features = p.features || [];
+    const idxStr = String(showcaseIdx + 1).padStart(2, '0');
+    const totalStr = String(PERSONA_LIST.length).padStart(2, '0');
+
+    // 右侧刻度：生成 18 个小段，当前高亮
+    const scaleMarks = PERSONA_LIST.map((_, i) => `<i class="${i === showcaseIdx ? 'on' : ''}"></i>`).join('');
+
+    card.innerHTML = `
+      <span class="ps-corner-bl"></span><span class="ps-corner-br"></span>
+      <div class="ps-head">
+        <span class="ps-label">PERSONA // ${escHtml(p.code)}</span>
+        <span class="ps-badge"><i></i>DARK ZONE</span>
+      </div>
+
+      <div class="ps-left-col">
+        <div class="ps-title">
+          <div class="ps-en">${escHtml(p.en)}</div>
+          <div class="ps-cn">${escHtml(p.cn)}</div>
+          <div class="ps-code">${RARITY_EN[p.rarity] || 'COMMON'} · ${escHtml(p.rarity)}款</div>
+        </div>
+        <ul class="ps-features">
+          ${features.map(f => `
+            <li class="ps-feature">
+              <span class="ps-ico"><svg><use href="#ico-${escHtml(f.icon)}"/></svg></span>
+              <span class="ps-txt">
+                <span class="ps-en-s">${escHtml(f.en)}</span>
+                <span class="ps-cn-s">${escHtml(f.cn)}</span>
+              </span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="ps-illust">
+        <img src="${p.img}" alt="${escHtml(p.cn)}"/>
+        <div class="ps-scale">
+          <b>${idxStr}</b>
+          <span>/ ${totalStr}</span>
+          ${scaleMarks}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderShowcaseRail(){
+    const thumbs = document.getElementById('ps-thumbs');
+    const dots   = document.getElementById('ps-dots');
+    if (!thumbs || !dots) return;
+
+    const page = Math.floor(showcaseIdx / SHOWCASE_PAGE_SIZE);
+    const start = page * SHOWCASE_PAGE_SIZE;
+    const end = Math.min(start + SHOWCASE_PAGE_SIZE, PERSONA_LIST.length);
+
+    let thumbHtml = '';
+    for (let i = start; i < end; i++){
+      const p = PERSONA_LIST[i];
+      thumbHtml += `
+        <button class="ps-thumb ${i === showcaseIdx ? 'active' : ''}" data-idx="${i}" aria-label="${escHtml(p.cn)}">
+          <img src="${p.img}" alt="" loading="lazy"/>
+          <span class="ps-thumb-label">${escHtml(p.en)}</span>
+        </button>
+      `;
+    }
+    // 不足 5 张时补占位，保持 grid 对齐
+    for (let i = end - start; i < SHOWCASE_PAGE_SIZE; i++){
+      thumbHtml += `<span class="ps-thumb" style="visibility:hidden" aria-hidden="true"></span>`;
+    }
+    thumbs.innerHTML = thumbHtml;
+
+    let dotHtml = '';
+    for (let i = 0; i < TOTAL_SHOWCASE_PAGES; i++){
+      dotHtml += `<button class="ps-dot ${i === page ? 'active' : ''}" data-page="${i}" aria-label="第 ${i+1} 页"></button>`;
+    }
+    dots.innerHTML = dotHtml;
+  }
+
+  function setShowcase(idx){
+    const n = PERSONA_LIST.length;
+    showcaseIdx = ((idx % n) + n) % n;
+    renderShowcaseCard();
+    renderShowcaseRail();
+  }
+
+  function initShowcase(){
+    if (!document.getElementById('ps-card')) return;
+    renderShowcaseCard();
+    renderShowcaseRail();
+
+    // 点击缩略卡 → 切换当前
+    document.getElementById('ps-thumbs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.ps-thumb[data-idx]');
+      if (!btn) return;
+      setShowcase(Number(btn.dataset.idx));
+    });
+
+    // 左右箭头：整页翻（切到目标页第一张）
+    document.querySelectorAll('.ps-arrow').forEach(b => {
+      b.addEventListener('click', () => {
+        const dir = Number(b.dataset.dir) || 1;
+        const page = Math.floor(showcaseIdx / SHOWCASE_PAGE_SIZE);
+        const nextPage = (page + dir + TOTAL_SHOWCASE_PAGES) % TOTAL_SHOWCASE_PAGES;
+        setShowcase(nextPage * SHOWCASE_PAGE_SIZE);
+      });
+    });
+
+    // 圆点：跳到对应页第一张
+    document.getElementById('ps-dots').addEventListener('click', (e) => {
+      const d = e.target.closest('.ps-dot[data-page]');
+      if (!d) return;
+      setShowcase(Number(d.dataset.page) * SHOWCASE_PAGE_SIZE);
+    });
+  }
+
+  initShowcase();
 })();

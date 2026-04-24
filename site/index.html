@@ -9,6 +9,58 @@
 </head>
 <body>
 
+<!-- SVG icon sprite（全局复用） -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="ico-leg-shot" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 3v7l-3 11h3l2-8 2 8h3L13 10V3zM17 12l4 2M17 14l3 1"/></symbol>
+    <symbol id="ico-armor-skip" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 4-3 7-8 9-5-2-8-5-8-9V6zM5 5l14 14"/></symbol>
+    <symbol id="ico-armor-max" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 4-3 7-8 9-5-2-8-5-8-9V6zM9 12l2 2 4-4"/></symbol>
+    <symbol id="ico-mag-stack" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M7 3h10v4H7zM8 7v14h8V7M10 10v8M14 10v8"/></symbol>
+    <symbol id="ico-crouch" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3a2 2 0 110 4 2 2 0 010-4zM10 8h4l1 5-2 1v6H9v-6l-2-1zM3 20h18"/></symbol>
+    <symbol id="ico-run-chase" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M13 4a2 2 0 110 4 2 2 0 010-4zM11 9l-3 4 2 2v6M13 10l4 2-1 3M5 15l3-1M17 20l3-2"/></symbol>
+    <symbol id="ico-rat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M5 16c0-4 4-6 7-6s7 2 7 6c0 3-3 4-7 4s-7-1-7-4zM6 12l-2-4 3 1M18 12l2-4-3 1M12 16v1M9 17l-2 2M15 17l2 2"/></symbol>
+    <symbol id="ico-ear" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M8 21c-2-2-3-5-3-9 0-4 3-8 7-8s7 3 7 7c0 3-3 4-5 5s-2 3-3 4-2 1-3 1zM11 10a2 2 0 012 2"/></symbol>
+    <symbol id="ico-back-shot" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M8 5a2 2 0 114 0 2 2 0 01-4 0zM10 7v6l-3 1v7M10 10l4 2M3 13l4 1M14 8l7 7M17 12l4-1 1 4"/></symbol>
+    <symbol id="ico-shield-dash" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v6c0 4-3 7-8 9-5-2-8-5-8-9V6zM9 12h6M12 9v6"/></symbol>
+    <symbol id="ico-grenade" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 3h6v3h-6zM10 6h4l3 4v6a4 4 0 01-4 4h-2a4 4 0 01-4-4v-6zM15 3l3-1M18 2l1 2"/></symbol>
+    <symbol id="ico-extract" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 20V6l8-3 8 3v14M9 20v-6h6v6M12 3v3M4 6h16"/></symbol>
+    <symbol id="ico-trap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3v6M12 15v6M3 12h6M15 12h6M12 9l-3 3 3 3 3-3z"/></symbol>
+    <symbol id="ico-victory" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3l3 6 6 1-4 4 1 7-6-3-6 3 1-7-4-4 6-1z"/></symbol>
+    <symbol id="ico-scope" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></symbol>
+    <symbol id="ico-head-shot" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 4a6 6 0 016 6v3h-2v4a2 2 0 01-2 2h-4v-3h-3v-6a6 6 0 016-6zM3 7l6 2M3 5l6 4"/></symbol>
+    <symbol id="ico-empty-bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6 7h12l1 13H5zM9 7V5a3 3 0 016 0v2M8 12l8 4M16 12l-8 4"/></symbol>
+    <symbol id="ico-no-cqb" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 12h6l2-3 4 6 2-3h4M4 4l16 16"/></symbol>
+    <symbol id="ico-walk-proud" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M11 3a2 2 0 110 4 2 2 0 010-4zM9 9l4-1 3 5-3 2v5M9 14l-3 2-1 4M13 15l2 5"/></symbol>
+    <symbol id="ico-safe-box" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3zM3 9h3M3 15h3M18 9h3M18 15h3"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 10v-2"/></symbol>
+    <symbol id="ico-skull" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6 11a6 6 0 0112 0v4h-1v3h-2v-2h-2v2h-2v-2H9v2H7v-3H6zM9 11v2M15 11v2"/></symbol>
+    <symbol id="ico-knife" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 21L14 10l4 4L9 23M14 10L19 5l2 2-5 5"/></symbol>
+    <symbol id="ico-run-fast" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M13 3a2 2 0 110 4 2 2 0 010-4zM10 9l4-1 3 4-3 2v7M3 11h4M3 15h6M3 19h4"/></symbol>
+    <symbol id="ico-laugh" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M8 10l2-1 2 1M14 10l2-1 2 1M8 14c2 2 6 2 8 0"/></symbol>
+    <symbol id="ico-thermal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3c3 3 3 5 0 8-3-3-3-5 0-8zM6 12c2 0 3 1 3 3s-1 3-3 3M18 12c-2 0-3 1-3 3s1 3 3 3M9 21h6"/></symbol>
+    <symbol id="ico-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M20 14A8 8 0 0110 4a8 8 0 1010 10z"/></symbol>
+    <symbol id="ico-bush-burn" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 20h16M7 20c-2-3-1-6 1-8 0 2 2 2 2 0 1 3 3 3 3 0 2 2 4 4 3 8M4 4l3 3M9 2l1 3M14 3l-1 3M19 5l-2 3"/></symbol>
+    <symbol id="ico-battery" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 8h15v8H3zM18 10h3v4h-3zM6 12h3"/></symbol>
+    <symbol id="ico-loot-bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M8 8c0-3 8-3 8 0l2 12H6zM10 8V6a2 2 0 014 0v2M12 12v4"/></symbol>
+    <symbol id="ico-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M9 10c0-1 1-2 3-2s3 1 3 2-1 2-3 2-3 1-3 2 1 2 3 2 3-1 3-2M12 6v2M12 16v2"/></symbol>
+    <symbol id="ico-backpack" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6 7h12v14H6zM9 7V5a3 3 0 016 0v2M8 11h8M8 15h8M10 19h4"/></symbol>
+    <symbol id="ico-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 20s-8-5-8-11a5 5 0 019-3 5 5 0 019 3c0 6-8 11-8 11z"/></symbol>
+    <symbol id="ico-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 4h8a4 4 0 014 4v13a3 3 0 00-3-3H4zM20 4h-4a4 4 0 00-4 4v13a3 3 0 013-3h5z"/></symbol>
+    <symbol id="ico-gunfire" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 14l6-2 3-4 4 3-2 4 6 2-6 2 1 4-4-2-3 3-2-4-5-2zM14 11l5-5"/></symbol>
+    <symbol id="ico-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 12l6-4M12 12v-4"/></symbol>
+    <symbol id="ico-map-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3a7 7 0 017 7c0 5-7 11-7 11S5 15 5 10a7 7 0 017-7zM12 10a2 2 0 100-4 2 2 0 000 4z"/></symbol>
+    <symbol id="ico-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M15 9l-2 5-5 2 2-5z"/></symbol>
+    <symbol id="ico-crown" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 8l4 4 5-6 5 6 4-4-2 11H5zM5 19h14"/></symbol>
+    <symbol id="ico-radio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M7 9h12v10H7zM10 6l7-2M9 13h3M9 16h5M17 13v3"/></symbol>
+    <symbol id="ico-radio-off" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M7 9h12v10H7zM10 6l7-2M9 13h3M9 16h5M17 13v3M4 4l16 16"/></symbol>
+    <symbol id="ico-wolf" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 5l3 5 3-2 3 2 3-2 3 2 3-5-1 10c0 4-4 6-8 6s-8-2-8-6zM9 14a1 1 0 100-2 1 1 0 000 2zM15 14a1 1 0 100-2 1 1 0 000 2zM11 17l1 1 1-1"/></symbol>
+    <symbol id="ico-run-exit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 4h10v16H4zM10 12h10M17 9l3 3-3 3"/></symbol>
+    <symbol id="ico-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2"/></symbol>
+    <symbol id="ico-medkit" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v13H4zM9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M12 11v5M9.5 13.5h5"/></symbol>
+    <symbol id="ico-stash" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v14H3zM3 9h18M3 14h18M8 5v14M14 5v14"/></symbol>
+    <symbol id="ico-grid" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  </defs>
+</svg>
+
 <!-- 背景层：KV + 网格 + 扫描线 + 噪点 -->
 <div class="bg">
   <div class="bg-kv"></div>
@@ -39,32 +91,51 @@
   <!-- ============ 封面 ============ -->
   <section class="screen screen--cover" data-screen="cover">
     <div class="hud-corners"><span></span><span></span></div>
-    <div class="cover-wrap">
-      <div class="cover-eyebrow">DARK ZONE · IDENTITY PROFILE</div>
-      <h1 class="cover-title">
-        你是<br/>
-        <span class="grad">哪一种暗区人？</span>
-      </h1>
-      <p class="cover-sub">
-        20 道题，判断你的游戏人格。<br/>
-        从打腿流信徒到隐藏款暗区顶点，18 种面孔，总有一款是你。
-      </p>
+    <div class="cover-grid">
+      <div class="cover-wrap">
+        <div class="cover-eyebrow">DARK ZONE · IDENTITY PROFILE</div>
+        <h1 class="cover-title">
+          你是<br/>
+          <span class="grad">哪一种暗区人？</span>
+        </h1>
+        <p class="cover-sub">
+          20 道题，判断你的游戏人格。<br/>
+          从打腿流信徒到隐藏款暗区顶点，18 种面孔，总有一款是你。
+        </p>
 
-      <div class="cover-actions">
-        <button class="btn-primary cover-cta" id="btn-start">
-          <span>[ START TEST ]</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-        <button class="btn-ghost cover-ghost" data-goto="codex">
-          [ CODEX ] · 先看图鉴
-        </button>
+        <div class="cover-actions">
+          <button class="btn-primary cover-cta" id="btn-start">
+            <span>[ START TEST ]</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button class="btn-ghost cover-ghost" data-goto="codex">
+            [ CODEX ] · 先看图鉴
+          </button>
+        </div>
+
+        <div class="cover-meta">
+          <div><strong>18</strong><span>PERSONAS · 种人格</span></div>
+          <div><strong>20</strong><span>QUESTIONS · 道题</span></div>
+          <div><strong>≈3</strong><span>MINUTES · 分钟</span></div>
+        </div>
       </div>
 
-      <div class="cover-meta">
-        <div><strong>18</strong><span>PERSONAS · 种人格</span></div>
-        <div><strong>20</strong><span>QUESTIONS · 道题</span></div>
-        <div><strong>≈3</strong><span>MINUTES · 分钟</span></div>
-      </div>
+      <!-- 右栏：人格橱窗 -->
+      <aside class="cover-showcase">
+        <article class="ps-card" id="ps-card">
+          <!-- JS 渲染 -->
+        </article>
+        <div class="ps-rail">
+          <button class="ps-arrow" data-dir="-1" aria-label="上一页">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="ps-thumbs" id="ps-thumbs"></div>
+          <button class="ps-arrow" data-dir="1" aria-label="下一页">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="ps-dots" id="ps-dots"></div>
+      </aside>
     </div>
   </section>
 

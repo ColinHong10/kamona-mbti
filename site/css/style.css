@@ -172,7 +172,7 @@ img{ display:block; max-width:100%; }
     linear-gradient(180deg, rgba(10,11,12,.62) 0%, rgba(10,11,12,.08) 25%, rgba(10,11,12,.12) 65%, rgba(10,11,12,.72) 100%),
     /* KV 本体：放大裁剪到只显示雕像核心，切掉顶部 1ST ANNIVERSARY 和底部 4500 BONDS */
     url('../assets/brand/kv-anniversary.jpg');
-  background-position: center center, center center, 60% 35%;
+  background-position: center center, center center, 32% 35%;
   background-size: 100% 100%, 100% 100%, auto 180%;
   background-repeat: no-repeat, no-repeat, no-repeat;
   opacity: 0;
@@ -1222,4 +1222,280 @@ main{
   .cc-cn{ font-size:15px; }
   .q-nav{ flex-wrap: wrap; }
   .q-nav-meta{ order: 3; flex-basis: 100%; text-align: center; padding-top: 4px; }
+}
+
+/* =========================================================
+ * 14. 封面 · 人格橱窗（Persona Showcase）
+ * ========================================================= */
+/* 双列 grid：左列 cover-wrap 原样不动，右列新增 showcase */
+.cover-grid{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+  align-items: stretch;
+}
+@media (min-width: 1100px){
+  .cover-grid{
+    grid-template-columns: minmax(0, 1fr) minmax(440px, 560px);
+    gap: clamp(32px, 4vw, 72px);
+  }
+}
+
+.cover-showcase{
+  display:flex; flex-direction:column;
+  gap: 18px;
+  align-self: center;
+  min-width: 0;
+}
+
+/* 主卡 */
+.ps-card{
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 18px;
+  min-height: 420px;
+  padding: 26px 26px 24px 26px;
+  background:
+    linear-gradient(140deg, rgba(24,28,32,.88) 0%, rgba(12,14,16,.92) 50%, rgba(10,11,12,.96) 100%),
+    repeating-linear-gradient(45deg, rgba(89,102,113,.06) 0 1px, transparent 1px 14px);
+  border: 1px solid rgba(89,102,113,.28);
+  overflow: hidden;
+  animation: ps-fade .32s cubic-bezier(.22,1,.36,1);
+}
+@keyframes ps-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* 四角 HUD 描边 */
+.ps-card::before,
+.ps-card::after,
+.ps-card .ps-corner-bl,
+.ps-card .ps-corner-br{
+  content:""; position:absolute; width:18px; height:18px;
+  border: 1px solid var(--accent); opacity: .7; pointer-events:none;
+}
+.ps-card::before{ top:10px; left:10px;  border-right:none; border-bottom:none; }
+.ps-card::after { top:10px; right:10px; border-left:none;  border-bottom:none; }
+
+.ps-head{
+  grid-column: 1 / -1;
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+.ps-label{
+  font-family: var(--ff-en);
+  font-weight: 700; font-size: 11px; letter-spacing: .32em;
+  color: var(--accent);
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.ps-label::before{ content:""; width: 18px; height:1px; background: var(--accent); }
+.ps-badge{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-en);
+  font-size: 10px; letter-spacing: .3em;
+  color: var(--steel-3);
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid rgba(89,102,113,.4);
+  background: rgba(0,0,0,.3);
+}
+.ps-badge i{
+  display:inline-block; width:6px; height:6px; transform:rotate(45deg);
+  background: var(--accent);
+}
+
+/* 左列：标题 + features */
+.ps-title{
+  display:flex; flex-direction:column; gap: 4px;
+  margin-bottom: 18px;
+}
+.ps-title .ps-en{
+  font-family: var(--ff-display);
+  font-weight: 900; font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: .01em; line-height: .95;
+  color: #fff;
+  text-transform: uppercase;
+}
+.ps-title .ps-cn{
+  font-family: var(--ff-cn);
+  font-weight: 800; font-size: 22px;
+  color: var(--accent);
+  letter-spacing: .05em;
+}
+.ps-title .ps-code{
+  margin-top: 4px;
+  font-family: var(--ff-num);
+  font-size: 13px; letter-spacing: .22em;
+  color: var(--steel-3);
+}
+
+.ps-features{
+  list-style:none; padding:0; margin:0;
+  display:flex; flex-direction:column; gap: 10px;
+}
+.ps-feature{
+  display:grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items:center;
+}
+.ps-feature .ps-ico{
+  width: 28px; height: 28px;
+  display:grid; place-items:center;
+  color: var(--accent);
+  border: 1px solid rgba(202,77,50,.38);
+  background: rgba(202,77,50,.06);
+}
+.ps-feature .ps-ico svg{ width: 18px; height: 18px; display:block; }
+.ps-feature .ps-txt{ min-width:0; display:flex; flex-direction:column; gap: 1px; }
+.ps-feature .ps-en-s{
+  font-family: var(--ff-en);
+  font-size: 12px; font-weight: 700; letter-spacing: .18em;
+  color: #eaecef;
+  text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ps-feature .ps-cn-s{
+  font-family: var(--ff-cn);
+  font-size: 12px; color: var(--steel-3);
+  letter-spacing: .04em;
+}
+
+/* 右列：立绘 + 右侧刻度 */
+.ps-illust{
+  position: relative;
+  display:grid; place-items: end center;
+  min-height: 240px;
+}
+.ps-illust img{
+  max-width: 100%; max-height: 360px;
+  width: auto; height: 100%;
+  object-fit: contain; object-position: bottom right;
+  filter: contrast(1.2) saturate(1.2) brightness(.72) sepia(.1);
+  transition: filter .4s ease;
+}
+.ps-scale{
+  position: absolute; right: -6px; top: 0; bottom: 0;
+  display:flex; flex-direction:column; justify-content:flex-start;
+  gap: 6px;
+  font-family: var(--ff-num);
+  font-size: 11px; letter-spacing: .2em;
+  color: var(--steel-3);
+  text-align: right;
+  pointer-events:none;
+}
+.ps-scale b{
+  color: var(--accent);
+  font-weight: 400; font-size: 14px;
+}
+.ps-scale i{
+  display:block;
+  width: 18px; height: 1px; margin-left: auto;
+  background: rgba(89,102,113,.45);
+  font-style: normal;
+}
+.ps-scale i.on{ background: var(--accent); }
+
+/* Rail */
+.ps-rail{
+  display: grid;
+  grid-template-columns: 34px 1fr 34px;
+  gap: 8px;
+  align-items: stretch;
+}
+.ps-arrow{
+  border: 1px solid rgba(89,102,113,.35);
+  background: rgba(12,14,16,.75);
+  color: var(--steel-3);
+  display:grid; place-items:center;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background .2s;
+}
+.ps-arrow:hover{ color: var(--accent); border-color: var(--accent); background: rgba(202,77,50,.08); }
+.ps-arrow:focus{ outline: none; }
+
+.ps-thumbs{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+.ps-thumb{
+  position: relative;
+  aspect-ratio: 3 / 4;
+  min-width: 0;
+  background: rgba(12,14,16,.85);
+  border: 1px solid rgba(89,102,113,.28);
+  cursor: pointer;
+  display:grid; place-items:end center;
+  overflow:hidden;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.ps-thumb img{
+  width: 110%; height: 100%;
+  object-fit: cover; object-position: center top;
+  filter: contrast(1.15) saturate(1.1) brightness(.52) sepia(.1);
+  transition: filter .2s ease;
+}
+.ps-thumb .ps-thumb-label{
+  position:absolute; left:6px; right:6px; bottom:6px;
+  font-family: var(--ff-en);
+  font-size: 9.5px; letter-spacing: .18em;
+  color: var(--steel-3);
+  text-transform: uppercase;
+  white-space: nowrap; overflow:hidden; text-overflow:ellipsis;
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0,0,0,.8);
+}
+.ps-thumb:hover{ border-color: rgba(202,77,50,.6); }
+.ps-thumb:hover img{ filter: contrast(1.15) saturate(1.1) brightness(.7) sepia(.05); }
+.ps-thumb.active{
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(202,77,50,.35);
+}
+.ps-thumb.active img{
+  filter: contrast(1.2) saturate(1.25) brightness(.85) sepia(.05);
+}
+.ps-thumb.active .ps-thumb-label{ color: #fff; }
+.ps-thumb.active::after{
+  content:""; position:absolute; top:4px; right:4px;
+  width: 6px; height: 6px; transform: rotate(45deg);
+  background: var(--accent);
+}
+
+/* Dots */
+.ps-dots{
+  display:flex; justify-content:center; gap: 10px;
+  padding-top: 2px;
+}
+.ps-dot{
+  width: 28px; height: 4px;
+  background: rgba(89,102,113,.3);
+  border: none; padding: 0;
+  cursor: pointer;
+  transition: background .2s ease, width .2s ease;
+}
+.ps-dot:hover{ background: rgba(89,102,113,.55); }
+.ps-dot.active{ background: var(--accent); width: 40px; }
+.ps-dot:focus{ outline: none; }
+
+/* 响应式：窄屏下卡内双列变单列 */
+@media (max-width: 1099px){
+  .cover-showcase{ margin-top: 20px; }
+}
+@media (max-width: 720px){
+  .ps-card{
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 22px 18px;
+  }
+  .ps-illust{ min-height: 200px; grid-row: 2; }
+  .ps-illust img{ max-height: 240px; }
+  .ps-scale{ display: none; }
+  .ps-thumbs{ grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .ps-thumb .ps-thumb-label{ font-size: 8.5px; }
 }

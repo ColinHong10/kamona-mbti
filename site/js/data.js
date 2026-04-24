@@ -13,7 +13,14 @@ const PERSONAS = {
     summary:'深信「膝盖是人类最脆弱的部位」，你不瞄头、不瞄胸，只瞄那对暴露在外的大腿肉。打不穿就磨，磨不死就追。',
     vibes:['腿部命中声效收藏家','见面先蹲下','主武器弹匣永远 60 发起步'],
     match:['squad_commander','safe_rusher','w_maniac'],
-    clash:['tier6_chad','evita_simp','apex']
+    clash:['tier6_chad','evita_simp','apex'],
+    features:[
+      { icon:'leg-shot',   en:'AIM FOR LEGS',    cn:'只打大腿肉' },
+      { icon:'armor-skip', en:'ARMOR IS A JOKE', cn:'护甲关我什么事' },
+      { icon:'mag-stack',  en:'60-ROUND MAG',    cn:'弹匣永远 60 发起' },
+      { icon:'crouch',     en:'CROUCH & GRIND',  cn:'见面先蹲下慢慢磨' },
+      { icon:'run-chase',  en:'HUNT THE LIMPER', cn:'打不穿就追着磨' }
+    ]
   },
   rat:{
     id:'rat', code:'RATX',
@@ -24,7 +31,14 @@ const PERSONAS = {
     summary:'草丛、墙角、门后三大阴间道场常驻选手。你的信条是：死了什么都没有，活着就是胜利。',
     vibes:['对脚步声过敏','静步键比 W 键磨得还亮','最爱的时刻是敌人转身的那一秒'],
     match:['extraction_camper','sniper','headtap'],
-    clash:['w_maniac','knife','chad']
+    clash:['w_maniac','knife','chad'],
+    features:[
+      { icon:'rat',         en:'THE RAT',         cn:'墙角门后常驻' },
+      { icon:'ear',         en:'LISTEN FIRST',    cn:'脚步声比视野重要' },
+      { icon:'crouch',      en:'SILENT STEPS',    cn:'静步键比 W 键亮' },
+      { icon:'back-shot',   en:'BACK TURN WIN',   cn:'等敌人转身那一秒' },
+      { icon:'shield-dash', en:'STAY ALIVE',      cn:'活着就是胜利' }
+    ]
   },
   extraction_camper:{
     id:'extraction_camper', code:'EXCP',
@@ -35,7 +49,14 @@ const PERSONAS = {
     summary:'别人在搜东西，你在搜「他们」。撤离点 30 米半径是你的私人领地，爆炸物是门票。',
     vibes:['GHO 永远带满','听到脚步先扔再说','最享受的是胜利那三声提示音'],
     match:['rat','babysitter','sniper'],
-    clash:['knife','loot_goblin','safe_rusher']
+    clash:['knife','loot_goblin','safe_rusher'],
+    features:[
+      { icon:'grenade',    en:'GHO STOCKED UP',   cn:'GHO 永远带满' },
+      { icon:'extract',    en:'GUARD THE EXIT',   cn:'撤离点私人领地' },
+      { icon:'ear',        en:'THROW FIRST',      cn:'听到脚步先扔' },
+      { icon:'trap',       en:'GREEN LIGHT TRAP', cn:'绿光亮起再动手' },
+      { icon:'victory',    en:'LOVE THE CHIME',   cn:'享受胜利提示音' }
+    ]
   },
   sniper:{
     id:'sniper', code:'SNPR',
@@ -46,7 +67,14 @@ const PERSONAS = {
     summary:'身上最贵的是枪，最便宜的是命。哲学很简单：反正会死，那不如死得刺激点。',
     vibes:['只练 800 米以上的心理素质','背包空到能听见回声','最讨厌近战'],
     match:['rat','headtap','lone_wolf'],
-    clash:['knife','chad','backpack']
+    clash:['knife','chad','backpack'],
+    features:[
+      { icon:'scope',       en:'LONG RANGE ONLY', cn:'只练 800 米以上' },
+      { icon:'head-shot',   en:'HEAD TAX ONLY',   cn:'只收人头税' },
+      { icon:'empty-bag',   en:'NO KIT NO FEAR',  cn:'裸装干翻顶配' },
+      { icon:'no-cqb',      en:'HATES CQB',       cn:'讨厌近战贴脸' },
+      { icon:'shield-dash', en:'GUN OVER LIFE',   cn:'枪比命贵' }
+    ]
   },
   chad:{
     id:'chad', code:'CHAD',
@@ -57,7 +85,14 @@ const PERSONAS = {
     summary:'T6 头 T6 甲 T6 枪，你不是在玩游戏，你是在走红毯。别人看到你撤离，你看到别人撤离——通过击杀提示。',
     vibes:['刷仓库时最有安全感','最怕穿帆布鞋的对手','血条比别人多一半还骂护甲差'],
     match:['apex','squad_commander','evita_simp'],
-    clash:['leg_meta','sniper','rat']
+    clash:['leg_meta','sniper','rat'],
+    features:[
+      { icon:'armor-max',   en:'TIER 6 FULL KIT',   cn:'T6 头 T6 甲 T6 枪' },
+      { icon:'walk-proud',  en:'RED CARPET WALK',   cn:'横着走不怕人打' },
+      { icon:'safe-box',    en:'STASH ATM',         cn:'保险箱就是取款机' },
+      { icon:'skull',       en:'SEE YOU AT KILL',   cn:'通过击杀提示见面' },
+      { icon:'armor-skip',  en:'ARMOR SNOB',        cn:'T6 甲还嫌护甲差' }
+    ]
   },
   knife:{
     id:'knife', code:'KNFE',
@@ -68,7 +103,14 @@ const PERSONAS = {
     summary:'装备？不要。枪？不要。只要一把刀、两条腿、和一种名为「乐子」的人生观。',
     vibes:['活着是意外，死了是日常','跑路线比撤离时间还熟','击杀回放是全网最爆的素材'],
     match:['w_maniac','safe_rusher','loot_goblin'],
-    clash:['sniper','rat','extraction_camper']
+    clash:['sniper','rat','extraction_camper'],
+    features:[
+      { icon:'knife',       en:'KNIFE ONLY RUN',    cn:'只带一把刀进图' },
+      { icon:'run-fast',    en:'CARDIO MAIN',       cn:'腿比枪靠谱' },
+      { icon:'laugh',       en:'FOR THE LULZ',      cn:'白给但开心' },
+      { icon:'skull',       en:'DEATH IS NORMAL',   cn:'死了是日常' },
+      { icon:'victory',     en:'CLIP GOES VIRAL',   cn:'击杀回放全网爆' }
+    ]
   },
   thermal:{
     id:'thermal', code:'THRM',
@@ -79,7 +121,14 @@ const PERSONAS = {
     summary:'肉眼？那是原始人的工具。你只相信能发光的生命体。树后？草里？墙角？都逃不过你。',
     vibes:['最爱夜图','看到没热像的玩家觉得他们辛苦','续航焦虑晚期'],
     match:['sniper','headtap','apex'],
-    clash:['rat','extraction_camper','knife']
+    clash:['rat','extraction_camper','knife'],
+    features:[
+      { icon:'thermal',     en:'THERMAL MAIN',      cn:'全图热成像视角' },
+      { icon:'moon',        en:'NIGHT MAP LOVER',   cn:'最爱夜图作业' },
+      { icon:'bush-burn',   en:'NO BUSH SAFE',      cn:'树后草里都逃不过' },
+      { icon:'battery',     en:'BATTERY ANXIETY',   cn:'续航焦虑晚期' },
+      { icon:'scope',       en:'TECH OVER INSTINCT', cn:'装备即修行' }
+    ]
   },
   loot_goblin:{
     id:'loot_goblin', code:'LOOT',
@@ -90,7 +139,14 @@ const PERSONAS = {
     summary:'击杀提示不是为了战绩，是为了「又有包可舔了」。地上掉一颗子弹你都要蹲下来捡。',
     vibes:['对「啪」的一声有生理反应','背包永远整理不完','把对手的内裤都翻出来卖钱'],
     match:['backpack','stash','knife'],
-    clash:['apex','lone_wolf','sniper']
+    clash:['apex','lone_wolf','sniper'],
+    features:[
+      { icon:'loot-bag',    en:'LICK EVERY BODY',   cn:'见包走不动路' },
+      { icon:'coin',        en:'BULLET IS MONEY',   cn:'地上子弹也要捡' },
+      { icon:'backpack',    en:'INVENTORY CHAOS',   cn:'背包永远整理不完' },
+      { icon:'ear',         en:'POP SOUND ADDICT',  cn:'对啪声有生理反应' },
+      { icon:'coin',        en:'SELL EVERYTHING',   cn:'能卖的都要卖' }
+    ]
   },
   evita_simp:{
     id:'evita_simp', code:'EVTA',
@@ -101,7 +157,14 @@ const PERSONAS = {
     summary:'你玩的不是暗区突围，是艾薇塔模拟器。钱都花在皮肤和挂件上，战斗力靠爱发电。',
     vibes:['语音包收集强迫症','任务剧情一个字不跳','打不过也不卸载，因为她还在'],
     match:['chad','babysitter','squad_commander'],
-    clash:['leg_meta','rat','sniper']
+    clash:['leg_meta','rat','sniper'],
+    features:[
+      { icon:'heart',       en:'FOR THE WAIFU',     cn:'为爱氪金' },
+      { icon:'coin',        en:'SKIN HOARDER',      cn:'皮肤挂件收集狂' },
+      { icon:'ear',         en:'VOICE LINE ADDICT', cn:'语音包收集强迫症' },
+      { icon:'book',        en:'LORE COMPLETIONIST', cn:'剧情一个字不跳' },
+      { icon:'shield-dash', en:'STAY FOR HER',      cn:'打不过也不卸载' }
+    ]
   },
   w_maniac:{
     id:'w_maniac', code:'WWWW',
@@ -112,7 +175,14 @@ const PERSONAS = {
     summary:'你的键盘上只有一个键磨损严重：W。听到枪声不是躲，是方位定位。',
     vibes:['撤离时间永远差 30 秒','最爱的播报是「敌人已被消灭」','最讨厌的词是「绕后」'],
     match:['knife','safe_rusher','leg_meta'],
-    clash:['extraction_camper','rat','lone_wolf']
+    clash:['extraction_camper','rat','lone_wolf'],
+    features:[
+      { icon:'run-fast',    en:'W KEY ONLY',        cn:'键盘只有 W 磨损' },
+      { icon:'gunfire',     en:'RUSH THE SOUND',    cn:'听到枪声就冲' },
+      { icon:'no-cqb',      en:'NO FLANK NO FEAR',  cn:'绕后？不存在' },
+      { icon:'skull',       en:'FINISH THE MAG',    cn:'子弹没打完不撤' },
+      { icon:'laugh',       en:'NO BRAIN NEEDED',   cn:'脑子是什么东西' }
+    ]
   },
   squad_commander:{
     id:'squad_commander', code:'CMDR',
@@ -123,7 +193,14 @@ const PERSONAS = {
     summary:'别人组队是为了取暖，你组队是为了调度。战术地图、报点系统、分工安排全流程你一人承包。',
     vibes:['说话自带播音腔','标点速度比呼吸还快','最爱的时刻是队友说「听你的」'],
     match:['babysitter','chad','evita_simp'],
-    clash:['lone_wolf','rat','knife']
+    clash:['lone_wolf','rat','knife'],
+    features:[
+      { icon:'radar',       en:'HUMAN RADAR',       cn:'人形雷达报点' },
+      { icon:'map-pin',     en:'CALL EVERY POS',    cn:'标点速度比呼吸快' },
+      { icon:'compass',     en:'CLOCK DIRECTIONS',  cn:'几点钟方向张口就来' },
+      { icon:'crown',       en:'LISTEN TO ME',      cn:'最爱听「听你的」' },
+      { icon:'radio',       en:'VOICE BROADCAST',   cn:'说话自带播音腔' }
+    ]
   },
   lone_wolf:{
     id:'lone_wolf', code:'LONE',
@@ -134,7 +211,14 @@ const PERSONAS = {
     summary:'不是社交恐惧，是社交能力浪费。你相信——能一个人解决的，绝不让别人添乱。',
     vibes:['语音常年关闭','最怕被邀请组队','撤离时最爱听自己的脚步声'],
     match:['sniper','rat','headtap'],
-    clash:['squad_commander','babysitter','evita_simp']
+    clash:['squad_commander','babysitter','evita_simp'],
+    features:[
+      { icon:'wolf',        en:'SOLO ONLY',         cn:'能一人绝不组队' },
+      { icon:'radio-off',   en:'VOICE MUTED',       cn:'语音常年关闭' },
+      { icon:'run-exit',    en:'HATE TEAM INVITE',  cn:'最怕被邀请组队' },
+      { icon:'ear',         en:'LOVE OWN STEPS',    cn:'只听自己的脚步声' },
+      { icon:'shield-dash', en:'TRUST NO ONE',      cn:'只信自己' }
+    ]
   },
   safe_rusher:{
     id:'safe_rusher', code:'SAFE',
@@ -145,7 +229,14 @@ const PERSONAS = {
     summary:'路线比外卖员熟，时间比时钟准。打开保险箱那一秒钟你闻到的是金钱味。',
     vibes:['背点表比课表还清楚','最怕被人先一步到点位','最爱的词是「这把出货」'],
     match:['w_maniac','loot_goblin','knife'],
-    clash:['rat','extraction_camper','babysitter']
+    clash:['rat','extraction_camper','babysitter'],
+    features:[
+      { icon:'safe-box',    en:'SAFE BOX RUSHER',   cn:'开局直奔保险箱' },
+      { icon:'run-exit',    en:'ROUTE LIKE A PRO',  cn:'路线比外卖员熟' },
+      { icon:'clock',       en:'CLOCK PRECISE',     cn:'时间比时钟还准' },
+      { icon:'coin',        en:'SMELL THE MONEY',   cn:'闻到金钱就冲' },
+      { icon:'victory',     en:'CLOCK OUT & GO',    cn:'不是来玩是来下班' }
+    ]
   },
   headtap:{
     id:'headtap', code:'HEAD',
@@ -156,7 +247,14 @@ const PERSONAS = {
     summary:'别人打 10 枪爆一次头，你打一枪爆十次头。鼠标 DPI 比你心跳数稳定。',
     vibes:['看到别人打腿会叹气','枪械后坐力图表背得比课文还熟','死亡回放里的最高艺术'],
     match:['sniper','lone_wolf','thermal'],
-    clash:['leg_meta','knife','loot_goblin']
+    clash:['leg_meta','knife','loot_goblin'],
+    features:[
+      { icon:'head-shot',   en:'ONE TAP ONE HEAD',  cn:'一枪一个头' },
+      { icon:'scope',       en:'DPI STEADY',        cn:'DPI 比心跳还稳' },
+      { icon:'book',        en:'RECOIL CHART PRO',  cn:'后坐力图背得熟' },
+      { icon:'leg-shot',    en:'LEG SHOT SIGH',     cn:'看别人打腿会叹气' },
+      { icon:'crown',       en:'DEATH CAM ART',     cn:'死亡回放里的艺术' }
+    ]
   },
   backpack:{
     id:'backpack', code:'BACK',
@@ -167,7 +265,14 @@ const PERSONAS = {
     summary:'你的背包是俄罗斯方块冠军现场。物资整理比整理人生还上瘾。',
     vibes:['出发前整理 10 分钟','看到没塞满的格子会焦虑','朋友搬家都来找你'],
     match:['loot_goblin','stash','safe_rusher'],
-    clash:['sniper','knife','apex']
+    clash:['sniper','knife','apex'],
+    features:[
+      { icon:'backpack',    en:'TETRIS MASTER',     cn:'背包即俄罗斯方块' },
+      { icon:'grid',        en:'EVERY SLOT COUNTS', cn:'每一格都不浪费' },
+      { icon:'clock',       en:'10-MIN PREP',       cn:'出发前整理 10 分钟' },
+      { icon:'loot-bag',    en:'NO EMPTY SLOT',     cn:'看到空格会焦虑' },
+      { icon:'coin',        en:'SPACE ALCHEMIST',   cn:'空间魔法师' }
+    ]
   },
   stash:{
     id:'stash', code:'STSH',
@@ -178,7 +283,14 @@ const PERSONAS = {
     summary:'仓库容量永远不够，不是你东西多，是你不舍得。连过期药品都要收藏。',
     vibes:['仓库整理三小时，实际用 0 件','最爱的词是「以防万一」','看到「限量」两个字心就软'],
     match:['loot_goblin','backpack','babysitter'],
-    clash:['knife','sniper','apex']
+    clash:['knife','sniper','apex'],
+    features:[
+      { icon:'stash',       en:'NEVER SELL',        cn:'仓库一件都不卖' },
+      { icon:'book',        en:'JUST IN CASE',      cn:'以防万一留着' },
+      { icon:'coin',        en:'MARKET WATCHER',    cn:'赌它以后会涨' },
+      { icon:'loot-bag',    en:'LIMITED EDITION',   cn:'看到限量心就软' },
+      { icon:'clock',       en:'3H ORGANIZING',     cn:'整理 3 小时用 0 件' }
+    ]
   },
   babysitter:{
     id:'babysitter', code:'BABY',
@@ -189,7 +301,14 @@ const PERSONAS = {
     summary:'队里摔了给你扶，出血了给你包，没子弹给你递。你打不打得赢不重要，队友活着就行。',
     vibes:['医疗包比弹匣多','最喜欢的反馈是「谢谢大哥」','死亡原因 80% 是救队友'],
     match:['squad_commander','evita_simp','stash'],
-    clash:['lone_wolf','rat','knife']
+    clash:['lone_wolf','rat','knife'],
+    features:[
+      { icon:'medkit',      en:'MEDKIT MAIN',       cn:'医疗包比弹匣多' },
+      { icon:'heart',       en:'YOU FIRST I COVER', cn:'你先撤我断后' },
+      { icon:'shield-dash', en:'REVIVE & CARRY',    cn:'摔了扶出血了包' },
+      { icon:'laugh',       en:'THANKS BRO',        cn:'最爱听谢谢大哥' },
+      { icon:'skull',       en:'DIED SAVING TEAM',  cn:'死亡原因救队友' }
+    ]
   },
   apex:{
     id:'apex', code:'APEX',
@@ -200,7 +319,14 @@ const PERSONAS = {
     summary:'枪法、意识、路线、节奏，全部顶配。你不是在玩游戏，你是游戏的一部分。——恭喜你抽到了隐藏款。',
     vibes:['KD 是别人的梦想','连举报你的人都尊敬你','退游都会被挽留'],
     match:['chad','headtap','thermal'],
-    clash:['rat','loot_goblin','stash']
+    clash:['rat','loot_goblin','stash'],
+    features:[
+      { icon:'crown',       en:'TOP 0.1%',          cn:'天选之人' },
+      { icon:'scope',       en:'AIM · SENSE · FLOW', cn:'枪法意识路线全顶配' },
+      { icon:'head-shot',   en:'PART OF THE GAME',  cn:'你是游戏的一部分' },
+      { icon:'victory',     en:'KD OF DREAMS',      cn:'别人梦想的 KD' },
+      { icon:'shield-dash', en:'EVEN HATERS BOW',   cn:'举报你的人也尊敬你' }
+    ]
   }
 };
 
