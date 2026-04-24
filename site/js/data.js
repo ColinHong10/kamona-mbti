@@ -7,7 +7,7 @@ const PERSONAS = {
   leg_meta:{
     id:'leg_meta', code:'LEGM',
     en:'Leg Meta Enjoyer', cn:'打腿流信徒',
-    img:'assets/personas/p1.png', rarity:'普通',
+    img:'assets/personas/originals/09_legmeta.png', cutout:'assets/personas/cutouts-3x4-trimmed/09_Leg_Meta_Enjoyer.png', rarity:'普通',
     tag:'#一枪爆腿 #六级甲笑话',
     punch:'你的甲是甲，我的腿是刀。',
     summary:'深信「膝盖是人类最脆弱的部位」，你不瞄头、不瞄胸，只瞄那对暴露在外的大腿肉。打不穿就磨，磨不死就追。',
@@ -25,7 +25,7 @@ const PERSONAS = {
   rat:{
     id:'rat', code:'RATX',
     en:'The Rat', cn:'老鼠人',
-    img:'assets/personas/p2.png', rarity:'普通',
+    img:'assets/personas/originals/13_rat.png', cutout:'assets/personas/cutouts-3x4-trimmed/13_Rat.png', rarity:'普通',
     tag:'#阴人艺术 #活着就是赢',
     punch:'你看不见我，所以我杀得死你。',
     summary:'草丛、墙角、门后三大阴间道场常驻选手。你的信条是：死了什么都没有，活着就是胜利。',
@@ -43,7 +43,7 @@ const PERSONAS = {
   extraction_camper:{
     id:'extraction_camper', code:'EXCP',
     en:'Extraction Camper', cn:'撤离点蹲王',
-    img:'assets/personas/p3.png', rarity:'普通',
+    img:'assets/personas/originals/05_extractcamper.png', cutout:'assets/personas/cutouts-3x4-trimmed/05_Extraction_Camper.png', rarity:'普通',
     tag:'#GHO 常驻 #绿光陷阱',
     punch:'你能撤，但我会让你带不走任何东西。',
     summary:'别人在搜东西，你在搜「他们」。撤离点 30 米半径是你的私人领地，爆炸物是门票。',
@@ -61,7 +61,7 @@ const PERSONAS = {
   sniper:{
     id:'sniper', code:'SNPR',
     en:'Naked Sniper', cn:'裸装狙仔',
-    img:'assets/personas/p4.png', rarity:'普通',
+    img:'assets/personas/originals/12_naked_sniper.png', cutout:'assets/personas/cutouts-3x4-trimmed/12_Naked_Sniper.png', rarity:'普通',
     tag:'#一枪一个 #裤衩干翻顶配',
     punch:'我带不起装备，但我带得走你的头。',
     summary:'身上最贵的是枪，最便宜的是命。哲学很简单：反正会死，那不如死得刺激点。',
@@ -79,7 +79,7 @@ const PERSONAS = {
   chad:{
     id:'chad', code:'CHAD',
     en:'Tier 6 Chad', cn:'T6 全装猛男',
-    img:'assets/personas/p5.png', rarity:'稀有',
+    img:'assets/personas/originals/16_t6_chad.png', cutout:'assets/personas/cutouts-3x4-trimmed/16_T6_Chad.png', rarity:'稀有',
     tag:'#横着走 #保险箱就是取款机',
     punch:'别躲，我知道你打不穿。',
     summary:'T6 头 T6 甲 T6 枪，你不是在玩游戏，你是在走红毯。别人看到你撤离，你看到别人撤离——通过击杀提示。',
@@ -97,7 +97,7 @@ const PERSONAS = {
   knife:{
     id:'knife', code:'KNFE',
     en:'Knife Runner', cn:'刀仔疾跑怪',
-    img:'assets/personas/p6.png', rarity:'稀有',
+    img:'assets/personas/originals/08_knifer.png', cutout:'assets/personas/cutouts-3x4-trimmed/08_Knife_Runner.png', rarity:'稀有',
     tag:'#跑刀乐子 #白给但开心',
     punch:'别人玩游戏，我玩行为艺术。',
     summary:'装备？不要。枪？不要。只要一把刀、两条腿、和一种名为「乐子」的人生观。',
@@ -115,7 +115,7 @@ const PERSONAS = {
   thermal:{
     id:'thermal', code:'THRM',
     en:'Thermal Addict', cn:'热成像依赖症',
-    img:'assets/personas/p7.png', rarity:'稀有',
+    img:'assets/personas/originals/17_thermal.png', cutout:'assets/personas/cutouts-3x4-trimmed/17_Thermal_Addict.png', rarity:'稀有',
     tag:'#上帝视角 #装备即修行',
     punch:'你在阴影里，我在热像里。',
     summary:'肉眼？那是原始人的工具。你只相信能发光的生命体。树后？草里？墙角？都逃不过你。',
@@ -133,7 +133,7 @@ const PERSONAS = {
   loot_goblin:{
     id:'loot_goblin', code:'LOOT',
     en:'Loot Goblin', cn:'舔包小精灵',
-    img:'assets/personas/p8.png', rarity:'普通',
+    img:'assets/personas/originals/11_lootgoblin.png', cutout:'assets/personas/cutouts-3x4-trimmed/11_Loot_Goblin.png', rarity:'普通',
     tag:'#舔舔舔 #见包走不动',
     punch:'能带走就是我的，带不走是下一个人的。',
     summary:'击杀提示不是为了战绩，是为了「又有包可舔了」。地上掉一颗子弹你都要蹲下来捡。',
@@ -151,7 +151,7 @@ const PERSONAS = {
   evita_simp:{
     id:'evita_simp', code:'EVTA',
     en:'The Evita Simp', cn:'艾薇塔厨',
-    img:'assets/personas/p9.png', rarity:'稀有',
+    img:'assets/personas/originals/04_evita.png', cutout:'assets/personas/cutouts-3x4-trimmed/04_Evita_Simp.png', rarity:'稀有',
     tag:'#角色厨 #为爱氪金',
     punch:'她说的话我都信，就算她是 NPC。',
     summary:'你玩的不是暗区突围，是艾薇塔模拟器。钱都花在皮肤和挂件上，战斗力靠爱发电。',
@@ -169,7 +169,7 @@ const PERSONAS = {
   w_maniac:{
     id:'w_maniac', code:'WWWW',
     en:'W-Key Maniac', cn:'钢枪狂',
-    img:'assets/personas/p10.png', rarity:'普通',
+    img:'assets/personas/originals/18_w_key_maniac.png', cutout:'assets/personas/cutouts-3x4-trimmed/18_W_Key_Maniac.png', rarity:'普通',
     tag:'#只会冲 #脑子是什么',
     punch:'撤什么撤，子弹没打完不能走。',
     summary:'你的键盘上只有一个键磨损严重：W。听到枪声不是躲，是方位定位。',
@@ -187,7 +187,7 @@ const PERSONAS = {
   squad_commander:{
     id:'squad_commander', code:'CMDR',
     en:'Squad Commander', cn:'队伍指挥官',
-    img:'assets/personas/p11.png', rarity:'稀有',
+    img:'assets/personas/originals/03_commander.png', cutout:'assets/personas/cutouts-3x4-trimmed/03_Squad_Commander.png', rarity:'稀有',
     tag:'#人形雷达 #报点达人',
     punch:'左前方灌木里，两点钟方向，我看你不动就是死了。',
     summary:'别人组队是为了取暖，你组队是为了调度。战术地图、报点系统、分工安排全流程你一人承包。',
@@ -205,7 +205,7 @@ const PERSONAS = {
   lone_wolf:{
     id:'lone_wolf', code:'LONE',
     en:'The Lone Wolf', cn:'独狼',
-    img:'assets/personas/p12.png', rarity:'普通',
+    img:'assets/personas/originals/10_lonewolf.png', cutout:'assets/personas/cutouts-3x4-trimmed/10_Lone_Wolf.png', rarity:'普通',
     tag:'#我一个人就够了 #队友是累赘',
     punch:'组队？不了，我的狗都比你听话。',
     summary:'不是社交恐惧，是社交能力浪费。你相信——能一个人解决的，绝不让别人添乱。',
@@ -223,7 +223,7 @@ const PERSONAS = {
   safe_rusher:{
     id:'safe_rusher', code:'SAFE',
     en:'Safe Rusher', cn:'保险箱冲锋选手',
-    img:'assets/personas/p13.png', rarity:'稀有',
+    img:'assets/personas/originals/14_saferusher.png', cutout:'assets/personas/cutouts-3x4-trimmed/14_Safe_Rusher.png', rarity:'稀有',
     tag:'#刷点如风 #开局冲保险箱',
     punch:'我不是来玩的，我是来下班的。',
     summary:'路线比外卖员熟，时间比时钟准。打开保险箱那一秒钟你闻到的是金钱味。',
@@ -241,7 +241,7 @@ const PERSONAS = {
   headtap:{
     id:'headtap', code:'HEAD',
     en:'Headtap Artist', cn:'爆头艺术家',
-    img:'assets/personas/p14.png', rarity:'稀有',
+    img:'assets/personas/originals/06_headshot.png', cutout:'assets/personas/cutouts-3x4-trimmed/06_Headtap_Artist.png', rarity:'稀有',
     tag:'#精准制导 #一枪一个头',
     punch:'我不浪费子弹，我浪费的是你。',
     summary:'别人打 10 枪爆一次头，你打一枪爆十次头。鼠标 DPI 比你心跳数稳定。',
@@ -259,7 +259,7 @@ const PERSONAS = {
   backpack:{
     id:'backpack', code:'BACK',
     en:'Backpack Maxxer', cn:'背包塞满大师',
-    img:'assets/personas/p15.png', rarity:'普通',
+    img:'assets/personas/originals/02_backpack_maxer.png', cutout:'assets/personas/cutouts-3x4-trimmed/02_Backpack_Maxxer.png', rarity:'普通',
     tag:'#空间魔法师 #每一格都不浪费',
     punch:'这个格子还能塞一颗电池，信不信？',
     summary:'你的背包是俄罗斯方块冠军现场。物资整理比整理人生还上瘾。',
@@ -277,7 +277,7 @@ const PERSONAS = {
   stash:{
     id:'stash', code:'STSH',
     en:'Stash Hoarder', cn:'仓库囤囤鼠',
-    img:'assets/personas/p16.png', rarity:'普通',
+    img:'assets/personas/originals/07_hoarder.png', cutout:'assets/personas/cutouts-3x4-trimmed/07_Stash_Hoarder.png', rarity:'普通',
     tag:'#舍不得卖 #万一以后用得上',
     punch:'这个以后说不定会涨，我先留着。',
     summary:'仓库容量永远不够，不是你东西多，是你不舍得。连过期药品都要收藏。',
@@ -295,7 +295,7 @@ const PERSONAS = {
   babysitter:{
     id:'babysitter', code:'BABY',
     en:'The Babysitter', cn:'队伍大保姆',
-    img:'assets/personas/p17.png', rarity:'稀有',
+    img:'assets/personas/originals/01_babysitter.png', cutout:'assets/personas/cutouts-3x4-trimmed/01_Babysitter.png', rarity:'稀有',
     tag:'#暖心医疗兵 #队友的爹妈',
     punch:'你先撤，我断后。',
     summary:'队里摔了给你扶，出血了给你包，没子弹给你递。你打不打得赢不重要，队友活着就行。',
@@ -313,7 +313,7 @@ const PERSONAS = {
   apex:{
     id:'apex', code:'APEX',
     en:'The Dark Zone Apex', cn:'暗区顶点',
-    img:'assets/personas/p18.png', rarity:'隐藏',
+    img:'assets/personas/originals/15_apex.png', cutout:'assets/personas/cutouts-3x4-trimmed/15_Dark_Zone_Apex.png', rarity:'隐藏',
     tag:'#隐藏款 #天选之人',
     punch:'我不说话，我只让你看结算。',
     summary:'枪法、意识、路线、节奏，全部顶配。你不是在玩游戏，你是游戏的一部分。——恭喜你抽到了隐藏款。',

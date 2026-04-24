@@ -13,6 +13,33 @@
   const $  = (s, root=document) => root.querySelector(s);
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const clamp = (n,min,max) => Math.max(min, Math.min(max,n));
+  const APEX_UNLOCK_KEY = 'dark-zone-mbti-apex-unlocked';
+  let apexUnlocked = false;
+  try {
+    apexUnlocked = localStorage.getItem(APEX_UNLOCK_KEY) === '1';
+  } catch {}
+
+  function isApexLocked(id){
+    return id === 'apex' && !apexUnlocked;
+  }
+
+  function unlockApexIfNeeded(id){
+    if (id !== 'apex' || apexUnlocked) return;
+    apexUnlocked = true;
+    try {
+      localStorage.setItem(APEX_UNLOCK_KEY, '1');
+    } catch {}
+    if (document.getElementById('codex-grid')) renderCodex();
+    if (document.getElementById('ps-card')?.dataset.templateReady) {
+      updateShowcaseCard();
+      updateShowcaseRail();
+    }
+  }
+
+  function personaImage(p, type = 'img'){
+    if (!p || isApexLocked(p.id)) return '';
+    return type === 'cutout' ? (p.cutout || p.img) : p.img;
+  }
 
   /* ------------ 路由（封面 / 答题 / 结果 / 图鉴） ------------ */
   const screens = {
@@ -295,6 +322,7 @@
 
   /* ------------ 结果渲染 ------------ */
   function renderResult(winnerId, score){
+    unlockApexIfNeeded(winnerId);
     const p = PERSONAS[winnerId];
     const total = Object.values(score).reduce((a,b)=>a+b,0) || 1;
 
@@ -390,12 +418,13 @@
 
   function pairItem(id){
     const p = PERSONAS[id];
+    const locked = isApexLocked(id);
     return `
-      <div class="pair-item" data-id="${id}">
-        <img src="${p.img}" alt=""/>
+      <div class="pair-item ${locked ? 'is-locked' : ''}" data-id="${id}">
+        ${locked ? '<span class="pi-lock" aria-hidden="true">?</span>' : `<img src="${personaImage(p)}" alt=""/>`}
         <div>
-          <div class="pi-cn">${p.cn}</div>
-          <div class="pi-en">${p.en}</div>
+          <div class="pi-cn">${locked ? '隐藏人格' : p.cn}</div>
+          <div class="pi-en">${locked ? 'CLASSIFIED' : p.en}</div>
         </div>
       </div>
     `;
@@ -406,19 +435,24 @@
   function renderCodex(){
     const grid = $('#codex-grid');
     const list = Object.values(PERSONAS).filter(p => codexFilter === 'all' || p.rarity === codexFilter);
-    grid.innerHTML = list.map((p, i) => `
-      <article class="codex-card" data-id="${p.id}" style="animation-delay:${i*40}ms">
-        <div class="cc-img"><img src="${p.img}" alt="${p.cn}" loading="lazy"/></div>
+    grid.innerHTML = list.map((p, i) => {
+      const locked = isApexLocked(p.id);
+      return `
+      <article class="codex-card ${locked ? 'is-locked' : ''}" data-id="${p.id}" style="animation-delay:${i*40}ms">
+        <div class="cc-img ${locked ? 'is-locked' : ''}">
+          ${locked ? '<span class="locked-mark" aria-hidden="true">?</span>' : `<img src="${personaImage(p)}" alt="${p.cn}" loading="lazy"/>`}
+        </div>
         <div class="cc-body">
-          <div class="cc-cn">${p.cn}</div>
-          <div class="cc-en">${p.en}</div>
+          <div class="cc-cn">${locked ? '隐藏人格' : p.cn}</div>
+          <div class="cc-en">${locked ? 'CLASSIFIED' : p.en}</div>
           <div class="cc-meta">
             <span class="cc-rare ${p.rarity}">${p.rarity}</span>
-            <span class="cc-code">${p.code}</span>
+            <span class="cc-code">${locked ? '???' : p.code}</span>
           </div>
         </div>
       </article>
-    `).join('');
+    `;
+    }).join('');
     $$('.codex-card').forEach(el => {
       el.addEventListener('click', () => openModal(el.dataset.id));
     });
@@ -436,19 +470,22 @@
   const modal = $('#modal');
   function openModal(id){
     const p = PERSONAS[id];
+    const locked = isApexLocked(id);
     $('#modal-card').innerHTML = `
       <button class="modal-close" aria-label="关闭" data-close>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
-      <div class="m-hero"><img src="${p.img}" alt=""/></div>
+      <div class="m-hero ${locked ? 'is-locked' : ''}">
+        ${locked ? '<span class="locked-mark" aria-hidden="true">?</span>' : `<img src="${personaImage(p)}" alt=""/>`}
+      </div>
       <div class="m-body">
-        <div class="result-eyebrow">${p.code} · ${p.rarity === '普通' ? 'COMMON' : p.rarity === '稀有' ? 'RARE' : 'HIDDEN'}</div>
-        <h2 class="m-name">${p.cn}</h2>
-        <div class="m-en">${p.en}</div>
-        <div class="m-punch">"${p.punch}"</div>
-        <p class="m-sum">${p.summary}</p>
+        <div class="result-eyebrow">${locked ? '???' : p.code} · ${p.rarity === '普通' ? 'COMMON' : p.rarity === '稀有' ? 'RARE' : 'HIDDEN'}</div>
+        <h2 class="m-name">${locked ? '隐藏人格' : p.cn}</h2>
+        <div class="m-en">${locked ? 'CLASSIFIED' : p.en}</div>
+        <div class="m-punch">"${locked ? '开出这种人格后，档案将自动解锁。' : p.punch}"</div>
+        <p class="m-sum">${locked ? '该人格形象已封存。完成测试并获得隐藏人格后，图鉴与首页展示会显示真实形象。' : p.summary}</p>
         <ul class="vibes">
-          ${p.vibes.map(v=>`<li>${v}</li>`).join('')}
+          ${(locked ? ['未解锁前不显示角色外观', '结果命中后会在本机保留解锁状态'] : p.vibes).map(v=>`<li>${v}</li>`).join('')}
         </ul>
         <div class="result-pair" style="margin-top:24px">
           <div class="pair-card">
@@ -522,45 +559,82 @@
   renderCodex();
 
   /* ============ 封面 · 人格橱窗 Showcase ============ */
-  const PERSONA_LIST = Object.values(PERSONAS);
+  const SHOWCASE_ORDER = [
+    'safe_rusher',
+    'lone_wolf',
+    'headtap',
+    'babysitter',
+    'loot_goblin',
+    'w_maniac',
+    'squad_commander',
+    'sniper',
+    'chad',
+    'rat',
+    'thermal',
+    'knife',
+    'backpack',
+    'stash',
+    'extraction_camper',
+    'leg_meta',
+    'evita_simp',
+    'apex'
+  ];
+  const PERSONA_LIST = SHOWCASE_ORDER.map(id => PERSONAS[id]).filter(Boolean);
   const RARITY_EN = { '普通':'COMMON', '稀有':'RARE', '隐藏':'HIDDEN' };
   const SHOWCASE_PAGE_SIZE = 5;
   const TOTAL_SHOWCASE_PAGES = Math.ceil(PERSONA_LIST.length / SHOWCASE_PAGE_SIZE);
-  let showcaseIdx = Math.floor(Math.random() * PERSONA_LIST.length);
+  const SHOWCASE_AUTOPLAY_MS = 4000;
+  let showcaseIdx = 0;
+  let showcaseTimer = null;
+  let showcasePaused = false;
 
-  const escHtml = (s) => String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+  // 稀有度 → class
+  const RARITY_CLASS = { '普通':'r-common', '稀有':'r-rare', '隐藏':'r-hidden' };
 
-  function renderShowcaseCard(){
-    const card = document.getElementById('ps-card');
-    if (!card) return;
-    const p = PERSONA_LIST[showcaseIdx];
-    const features = p.features || [];
-    const idxStr = String(showcaseIdx + 1).padStart(2, '0');
-    const totalStr = String(PERSONA_LIST.length).padStart(2, '0');
+  // 生成坐标刻度（x 方向 12 段、y 方向 10 段）
+  function coordTicks(n, activeIdx){
+    let html = '';
+    for (let i = 0; i < n; i++){
+      const on = (i === activeIdx) ? 'on' : '';
+      html += `<i class="${on}"></i>`;
+    }
+    return html;
+  }
 
-    // 右侧刻度：生成 18 个小段，当前高亮
-    const scaleMarks = PERSONA_LIST.map((_, i) => `<i class="${i === showcaseIdx ? 'on' : ''}"></i>`).join('');
+  function cardTemplateHTML(){
+    return `
+      <span class="ps-corner-tl"></span>
+      <span class="ps-corner-tr"></span>
+      <span class="ps-corner-bl"></span>
+      <span class="ps-corner-br"></span>
 
-    card.innerHTML = `
-      <span class="ps-corner-bl"></span><span class="ps-corner-br"></span>
-      <div class="ps-head">
-        <span class="ps-label">PERSONA // ${escHtml(p.code)}</span>
-        <span class="ps-badge"><i></i>DARK ZONE</span>
-      </div>
+      <header class="ps-head">
+        <span class="ps-file-no">FILE NO. <span data-ps="fileNo"></span></span>
+        <span class="ps-classify"><i></i>DARK ZONE · PERSONA PROFILE</span>
+      </header>
 
       <div class="ps-left-col">
-        <div class="ps-title">
-          <div class="ps-en">${escHtml(p.en)}</div>
-          <div class="ps-cn">${escHtml(p.cn)}</div>
-          <div class="ps-code">${RARITY_EN[p.rarity] || 'COMMON'} · ${escHtml(p.rarity)}款</div>
+        <div class="ps-title" data-role="title">
+          <div class="ps-en" data-ps="en"></div>
+          <div class="ps-cn" data-ps="cn"></div>
+          <div class="ps-rarity" data-ps="rarityWrap">
+            RARITY · <b data-ps="rarityEn"></b> · <span data-ps="rarityCn"></span>款
+          </div>
         </div>
-        <ul class="ps-features">
-          ${features.map(f => `
-            <li class="ps-feature">
-              <span class="ps-ico"><svg><use href="#ico-${escHtml(f.icon)}"/></svg></span>
+        <p class="ps-desc" data-ps="summary"></p>
+        <div class="ps-tags" data-role="tags">
+          <span class="ps-tag" data-ps-tag="0"></span>
+          <span class="ps-tag" data-ps-tag="1"></span>
+          <span class="ps-tag" data-ps-tag="2"></span>
+        </div>
+        <div class="ps-features-head" data-role="feat-head">TRAITS · 战术特征</div>
+        <ul class="ps-features" data-role="features">
+          ${Array.from({ length: 5 }, (_, i) => `
+            <li class="ps-feature" data-ps-feature="${i}" style="animation-delay:${120 + i * 90}ms">
+              <span class="ps-ico"><svg><use data-ps="featureIcon${i}" href="#ico-safe-box"/></svg></span>
               <span class="ps-txt">
-                <span class="ps-en-s">${escHtml(f.en)}</span>
-                <span class="ps-cn-s">${escHtml(f.cn)}</span>
+                <span class="ps-en-s" data-ps="featureEn${i}"></span>
+                <span class="ps-cn-s" data-ps="featureCn${i}"></span>
               </span>
             </li>
           `).join('')}
@@ -568,17 +642,161 @@
       </div>
 
       <div class="ps-illust">
-        <img src="${p.img}" alt="${escHtml(p.cn)}"/>
-        <div class="ps-scale">
-          <b>${idxStr}</b>
-          <span>/ ${totalStr}</span>
-          ${scaleMarks}
+        <div class="ps-coord-x">${coordTicks(12, -1)}</div>
+        <div class="ps-coord-y">${coordTicks(10, -1)}</div>
+        <div class="ps-glow"></div>
+        <div class="ps-particles" data-role="particles">
+          ${Array.from({ length: 14 }, (_, i) => `<i class="ps-spark ps-spark-${i + 1}"></i>`).join('')}
+        </div>
+        <div class="ps-stage"></div>
+        <div class="ps-figure" data-role="figure">
+          <img data-ps="figure" src="" alt=""/>
+          <span class="ps-figure-lock" aria-hidden="true">?</span>
         </div>
       </div>
+
+      <footer class="ps-footer">
+        <span>REF · <span class="ps-code-tag" data-ps="codeTag"></span></span>
+        <span>CLASSIFIED / FOR RUNNERS ONLY</span>
+      </footer>
     `;
   }
 
-  function renderShowcaseRail(){
+  function thumbTemplateHTML(){
+    return Array.from({ length: SHOWCASE_PAGE_SIZE }, (_, i) => `
+      <button class="ps-thumb" data-thumb-slot="${i}" data-idx="-1" aria-label="">
+        <span class="ps-thumb-idx" data-thumb-idx="${i}"></span>
+        <img data-thumb-img="${i}" src="" alt="" loading="lazy"/>
+        <span class="ps-thumb-lock" aria-hidden="true">?</span>
+        <span class="ps-thumb-label" data-thumb-label="${i}"></span>
+      </button>
+    `).join('');
+  }
+
+  function dotTemplateHTML(){
+    return Array.from({ length: TOTAL_SHOWCASE_PAGES }, (_, i) =>
+      `<button class="ps-dot" data-page="${i}" aria-label="第 ${i + 1} 页"></button>`
+    ).join('');
+  }
+
+  function ensureShowcaseTemplate(){
+    const card = document.getElementById('ps-card');
+    const thumbs = document.getElementById('ps-thumbs');
+    const dots = document.getElementById('ps-dots');
+    if (!card || !thumbs || !dots) return false;
+    if (!card.dataset.templateReady){
+      card.innerHTML = cardTemplateHTML();
+      card.dataset.templateReady = 'true';
+    }
+    if (!thumbs.dataset.templateReady){
+      thumbs.innerHTML = thumbTemplateHTML();
+      thumbs.dataset.templateReady = 'true';
+    }
+    if (!dots.dataset.templateReady){
+      dots.innerHTML = dotTemplateHTML();
+      dots.dataset.templateReady = 'true';
+    }
+    return true;
+  }
+
+  function setText(root, key, value){
+    const el = root.querySelector(`[data-ps="${key}"]`);
+    if (el) el.textContent = value || '';
+  }
+
+  function updateCoordTicks(card, idx){
+    const xActive = Math.min(11, Math.floor(idx * 12 / PERSONA_LIST.length));
+    const yActive = Math.min(9,  Math.floor(idx * 10 / PERSONA_LIST.length));
+    $$('.ps-coord-x i', card).forEach((el, i) => el.classList.toggle('on', i === xActive));
+    $$('.ps-coord-y i', card).forEach((el, i) => el.classList.toggle('on', i === yActive));
+  }
+
+  function seededUnit(seed){
+    const x = Math.sin(seed * 997.3) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function updateParticles(card, idx){
+    $$('.ps-spark', card).forEach((spark, i) => {
+      const sx = 14 + seededUnit((idx + 1) * 17 + i) * 74;
+      const sy = 58 + seededUnit((idx + 1) * 29 + i) * 30;
+      const drift = 10 + seededUnit((idx + 1) * 43 + i) * 26;
+      const scale = .55 + seededUnit((idx + 1) * 53 + i) * 1.35;
+      spark.style.setProperty('--spark-x', `${sx.toFixed(2)}%`);
+      spark.style.setProperty('--spark-y', `${sy.toFixed(2)}%`);
+      spark.style.setProperty('--spark-drift', `${drift.toFixed(1)}px`);
+      spark.style.setProperty('--spark-scale', scale.toFixed(2));
+      spark.style.setProperty('--spark-delay', `${(-seededUnit((idx + 1) * 61 + i) * 3.8).toFixed(2)}s`);
+    });
+  }
+
+  function updateShowcaseCard(){
+    const card = document.getElementById('ps-card');
+    if (!card) return;
+    const p = PERSONA_LIST[showcaseIdx];
+    const idxStr = String(showcaseIdx + 1).padStart(2, '0');
+    const totalStr = String(PERSONA_LIST.length).padStart(2, '0');
+    const features = (p.features || []).slice(0, 5);
+    const tags = String(p.tag || '').split(/\s+/).filter(Boolean).slice(0, 3);
+    const rarityClass = RARITY_CLASS[p.rarity] || 'r-common';
+    const rarityEN = RARITY_EN[p.rarity] || 'COMMON';
+    const figure = card.querySelector('[data-ps="figure"]');
+    const locked = isApexLocked(p.id);
+
+    card.classList.toggle('is-apex-locked', locked);
+    setText(card, 'fileNo', `${idxStr} / ${totalStr}`);
+    setText(card, 'en', locked ? 'CLASSIFIED' : p.en);
+    setText(card, 'cn', locked ? '隐藏人格' : p.cn);
+    setText(card, 'rarityEn', rarityEN);
+    setText(card, 'rarityCn', p.rarity);
+    setText(card, 'summary', locked ? '该人格档案已加密。完成测试并开出隐藏人格后，真实形象会自动解锁。' : p.summary);
+    setText(card, 'codeTag', `${locked ? '???' : p.code}-${idxStr}`);
+
+    const rarityWrap = card.querySelector('[data-ps="rarityWrap"]');
+    if (rarityWrap) rarityWrap.className = `ps-rarity ${rarityClass}`;
+
+    tags.forEach((tag, i) => {
+      const el = card.querySelector(`[data-ps-tag="${i}"]`);
+      if (!el) return;
+      el.textContent = tag;
+      el.hidden = false;
+    });
+    for (let i = tags.length; i < 3; i++){
+      const el = card.querySelector(`[data-ps-tag="${i}"]`);
+      if (el) el.hidden = true;
+    }
+
+    for (let i = 0; i < 5; i++){
+      const feature = features[i];
+      const row = card.querySelector(`[data-ps-feature="${i}"]`);
+      if (row) row.hidden = !feature;
+      if (!feature) continue;
+      const use = card.querySelector(`[data-ps="featureIcon${i}"]`);
+      if (use) use.setAttribute('href', `#ico-${feature.icon}`);
+      setText(card, `featureEn${i}`, feature.en);
+      setText(card, `featureCn${i}`, feature.cn);
+    }
+
+    if (figure){
+      const src = personaImage(p, 'cutout');
+      if (locked) {
+        figure.removeAttribute('src');
+        figure.alt = '隐藏人格未解锁';
+      } else {
+        if (figure.getAttribute('src') !== src) figure.src = src;
+        figure.alt = p.cn;
+      }
+    }
+
+    updateCoordTicks(card, showcaseIdx);
+    updateParticles(card, showcaseIdx);
+
+    card.classList.remove('is-updating');
+    void card.offsetWidth;
+    card.classList.add('is-updating');
+  }
+
+  function updateShowcaseRail(){
     const thumbs = document.getElementById('ps-thumbs');
     const dots   = document.getElementById('ps-dots');
     if (!thumbs || !dots) return;
@@ -587,46 +805,80 @@
     const start = page * SHOWCASE_PAGE_SIZE;
     const end = Math.min(start + SHOWCASE_PAGE_SIZE, PERSONA_LIST.length);
 
-    let thumbHtml = '';
-    for (let i = start; i < end; i++){
-      const p = PERSONA_LIST[i];
-      thumbHtml += `
-        <button class="ps-thumb ${i === showcaseIdx ? 'active' : ''}" data-idx="${i}" aria-label="${escHtml(p.cn)}">
-          <img src="${p.img}" alt="" loading="lazy"/>
-          <span class="ps-thumb-label">${escHtml(p.en)}</span>
-        </button>
-      `;
-    }
-    // 不足 5 张时补占位，保持 grid 对齐
-    for (let i = end - start; i < SHOWCASE_PAGE_SIZE; i++){
-      thumbHtml += `<span class="ps-thumb" style="visibility:hidden" aria-hidden="true"></span>`;
-    }
-    thumbs.innerHTML = thumbHtml;
+    $$('.ps-thumb', thumbs).forEach((btn, slot) => {
+      const idx = start + slot;
+      const p = PERSONA_LIST[idx];
+      const visible = idx < end && Boolean(p);
+      const locked = visible && isApexLocked(p.id);
+      btn.style.visibility = visible ? '' : 'hidden';
+      btn.dataset.idx = visible ? String(idx) : '-1';
+      btn.classList.toggle('active', idx === showcaseIdx);
+      btn.classList.toggle('is-locked', locked);
+      btn.setAttribute('aria-label', visible ? (locked ? '隐藏人格未解锁' : p.cn) : '');
 
-    let dotHtml = '';
-    for (let i = 0; i < TOTAL_SHOWCASE_PAGES; i++){
-      dotHtml += `<button class="ps-dot ${i === page ? 'active' : ''}" data-page="${i}" aria-label="第 ${i+1} 页"></button>`;
-    }
-    dots.innerHTML = dotHtml;
+      const num = btn.querySelector(`[data-thumb-idx="${slot}"]`);
+      const img = btn.querySelector(`[data-thumb-img="${slot}"]`);
+      const label = btn.querySelector(`[data-thumb-label="${slot}"]`);
+      if (num) num.textContent = visible ? String(idx + 1).padStart(2, '0') : '';
+      if (img && visible){
+        const src = personaImage(p, 'cutout');
+        if (locked) {
+          img.removeAttribute('src');
+          img.alt = '隐藏人格未解锁';
+        } else {
+          img.src = src;
+          img.alt = '';
+        }
+      }
+      if (label) label.textContent = visible ? (locked ? 'CLASSIFIED' : p.en) : '';
+    });
+
+    $$('.ps-dot', dots).forEach((dot, i) => {
+      dot.classList.toggle('active', i === page);
+    });
   }
 
-  function setShowcase(idx){
+  function setShowcase(idx, opts = {}){
     const n = PERSONA_LIST.length;
-    showcaseIdx = ((idx % n) + n) % n;
-    renderShowcaseCard();
-    renderShowcaseRail();
+    const next = ((idx % n) + n) % n;
+    const previousPage = Math.floor(showcaseIdx / SHOWCASE_PAGE_SIZE);
+    showcaseIdx = next;
+    const currentPage = Math.floor(showcaseIdx / SHOWCASE_PAGE_SIZE);
+    updateShowcaseCard();
+    updateShowcaseRail();
+    if (opts.announce && previousPage !== currentPage) {
+      toast(`PERSONA PAGE ${currentPage + 1}`);
+    }
+  }
+
+  function stopShowcaseAutoplay(){
+    if (showcaseTimer) {
+      clearInterval(showcaseTimer);
+      showcaseTimer = null;
+    }
+  }
+
+  function startShowcaseAutoplay(){
+    stopShowcaseAutoplay();
+    showcaseTimer = setInterval(() => {
+      if (showcasePaused) return;
+      if (document.hidden) return;
+      if (!document.body.classList.contains('on-cover')) return;
+      setShowcase(showcaseIdx + 1, { transition: true });
+    }, SHOWCASE_AUTOPLAY_MS);
   }
 
   function initShowcase(){
-    if (!document.getElementById('ps-card')) return;
-    renderShowcaseCard();
-    renderShowcaseRail();
+    if (!ensureShowcaseTemplate()) return;
+    updateShowcaseCard();
+    updateShowcaseRail();
 
     // 点击缩略卡 → 切换当前
     document.getElementById('ps-thumbs').addEventListener('click', (e) => {
       const btn = e.target.closest('.ps-thumb[data-idx]');
       if (!btn) return;
-      setShowcase(Number(btn.dataset.idx));
+      const idx = Number(btn.dataset.idx);
+      if (idx >= 0) setShowcase(idx);
     });
 
     // 左右箭头：整页翻（切到目标页第一张）
@@ -635,7 +887,7 @@
         const dir = Number(b.dataset.dir) || 1;
         const page = Math.floor(showcaseIdx / SHOWCASE_PAGE_SIZE);
         const nextPage = (page + dir + TOTAL_SHOWCASE_PAGES) % TOTAL_SHOWCASE_PAGES;
-        setShowcase(nextPage * SHOWCASE_PAGE_SIZE);
+        setShowcase(nextPage * SHOWCASE_PAGE_SIZE, { announce: true });
       });
     });
 
@@ -645,6 +897,15 @@
       if (!d) return;
       setShowcase(Number(d.dataset.page) * SHOWCASE_PAGE_SIZE);
     });
+
+    const showcase = document.querySelector('.cover-showcase');
+    if (showcase){
+      showcase.addEventListener('pointerenter', () => { showcasePaused = true; });
+      showcase.addEventListener('pointerleave', () => { showcasePaused = false; });
+      showcase.addEventListener('focusin', () => { showcasePaused = true; });
+      showcase.addEventListener('focusout', () => { showcasePaused = false; });
+    }
+    startShowcaseAutoplay();
   }
 
   initShowcase();
