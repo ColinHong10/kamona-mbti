@@ -277,7 +277,20 @@
       const w = QUESTIONS[qi].options[optIdx].w || {};
       for (const k in w) score[k] = (score[k] || 0) + w[k];
     });
-    return score;
+    return applySignatureBlend(score);
+  }
+
+  function applySignatureBlend(score){
+    const blended = { ...score };
+    Object.values(SIGNATURE).forEach(ids => {
+      const dimSum = ids.reduce((sum, id) => sum + (score[id] || 0), 0);
+      if (!dimSum) return;
+      const dimAvg = dimSum / ids.length;
+      ids.forEach(id => {
+        blended[id] = (blended[id] || 0) + dimAvg * 0.08;
+      });
+    });
+    return blended;
   }
 
   function pickWinner(score){
@@ -388,7 +401,7 @@
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 12a9 9 0 109-9M3 3v6h6"/></svg>
         </button>
         <button class="btn-ghost" id="r-codex">[ CODEX · 图鉴 ]</button>
-        <button class="btn-ghost" id="r-share">[ SHARE · 复制分享文案 ]</button>
+        <button class="btn-ghost" id="r-share">[ SHARE · 分享结果图 ]</button>
       </section>
     `;
     $('#result-wrap').innerHTML = html;
@@ -403,16 +416,514 @@
     // 事件
     $('#r-retest').addEventListener('click', startQuiz);
     $('#r-codex').addEventListener('click', () => { renderCodex(); show('codex'); });
-    $('#r-share').addEventListener('click', () => {
-      const txt = `我是「${p.cn}」（${p.en}）\n${p.punch}\n—— 来测测你的暗区人格：18 种，你会是哪一种？`;
-      navigator.clipboard?.writeText(txt).then(() => {
-        toast('已复制分享文案');
-      }).catch(() => alert(txt));
-    });
+    $('#r-share').addEventListener('click', () => shareResultPoster(p));
 
     // pair-item 点击 → 弹层
     $$('.pair-item').forEach(el => {
       el.addEventListener('click', () => openModal(el.dataset.id));
+    });
+  }
+
+  async function shareResultPoster(p){
+    const btn = $('#r-share');
+    const oldText = btn?.textContent;
+    if (btn){
+      btn.disabled = true;
+      btn.textContent = '[ GENERATING · 生成中 ]';
+    }
+
+    try {
+      const shareUrl = getShareUrl();
+      const blob = await createResultPosterBlob(p, shareUrl);
+      const filename = `dark-zone-mbti-${p.id || 'result'}.png`;
+      const text = `我是「${p.cn}」（${p.en}）\n${p.punch}\n—— 来测测你的暗区人格：18 种，你会是哪一种？\n${shareUrl}`;
+      const file = new File([blob], filename, { type:'image/png' });
+      const shareData = {
+        title:'暗区人格 · DARK ZONE MBTI',
+        text,
+        url: shareUrl,
+        files:[file]
+      };
+
+      if (navigator.share && navigator.canShare?.({ files:[file] })){
+        try {
+          await navigator.share(shareData);
+          toast('已拉起分享面板');
+          return;
+        } catch (err){
+          if (err?.name === 'AbortError'){
+            toast('已取消分享');
+            return;
+          }
+        }
+      }
+
+      downloadBlob(blob, filename);
+      await copyShareText(text);
+      toast('已下载结果图并复制文案');
+    } catch (err){
+      console.error('[暗区 MBTI] 分享图生成失败：', err);
+      const fallback = `我是「${p.cn}」（${p.en}）\n${p.punch}\n—— 来测测你的暗区人格：18 种，你会是哪一种？\n${getShareUrl()}`;
+      await copyShareText(fallback).catch(() => alert(fallback));
+      toast('图片生成失败，已复制文案');
+    } finally {
+      if (btn){
+        btn.disabled = false;
+        btn.textContent = oldText || '[ SHARE · 分享结果图 ]';
+      }
+    }
+  }
+
+  function getShareUrl(){
+    if (location.protocol === 'file:') return location.href.split('#')[0];
+    return `${location.origin}${location.pathname}`;
+  }
+
+  async function createResultPosterBlob(p, shareUrl){
+    await document.fonts?.ready?.catch?.(() => {});
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1440;
+    const ctx = canvas.getContext('2d');
+    drawPosterBackground(ctx, canvas.width, canvas.height);
+    await drawPosterContent(ctx, p, shareUrl);
+    return await new Promise((resolve, reject) => {
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Canvas toBlob failed')), 'image/png', 0.95);
+    });
+  }
+
+  function drawPosterBackground(ctx, w, h){
+    const bg = ctx.createLinearGradient(0, 0, w, h);
+    bg.addColorStop(0, '#11161b');
+    bg.addColorStop(0.5, '#090b0e');
+    bg.addColorStop(1, '#16100e');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = '#ca4d32';
+    ctx.globalAlpha = 0.18;
+    ctx.fillRect(0, 0, 18, h);
+    ctx.fillRect(w - 18, 0, 18, h);
+    ctx.globalAlpha = 1;
+
+    ctx.strokeStyle = 'rgba(202,77,50,.35)';
+    ctx.lineWidth = 2;
+    for (let y = 120; y < h; y += 120){
+      ctx.beginPath();
+      ctx.moveTo(58, y);
+      ctx.lineTo(w - 58, y);
+      ctx.stroke();
+    }
+
+    const glow = ctx.createRadialGradient(w * 0.7, h * 0.36, 20, w * 0.7, h * 0.36, 520);
+    glow.addColorStop(0, 'rgba(202,77,50,.28)');
+    glow.addColorStop(1, 'rgba(202,77,50,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+  }
+
+  async function drawPosterContent(ctx, p, shareUrl){
+    const w = ctx.canvas.width;
+    const h = ctx.canvas.height;
+    const accent = '#ca4d32';
+    const text = '#f4f1eb';
+    const muted = '#9aa3aa';
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(244,241,235,.28)';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(58, 58, w - 116, h - 116);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 6;
+    drawCornerTicks(ctx, 58, 58, w - 116, h - 116, 54);
+    ctx.restore();
+
+    ctx.fillStyle = accent;
+    ctx.font = '700 34px RobotoCondensed, Arial, sans-serif';
+    ctx.letterSpacing = '4px';
+    ctx.fillText('DARK ZONE MBTI', 92, 130);
+    ctx.letterSpacing = '0px';
+    ctx.fillStyle = muted;
+    ctx.font = '700 26px RobotoCondensed, Arial, sans-serif';
+    ctx.fillText('IDENTITY CONFIRMED', 92, 176);
+
+    ctx.fillStyle = 'rgba(202,77,50,.92)';
+    ctx.fillRect(90, 222, 230, 42);
+    ctx.fillStyle = '#fff';
+    ctx.font = '700 24px RobotoCondensed, Arial, sans-serif';
+    ctx.fillText(`${rarityEn(p.rarity)} · ${p.code}`, 112, 251);
+
+    await drawPersonaFigure(ctx, p);
+
+    ctx.fillStyle = text;
+    ctx.font = fitFont(ctx, p.cn, 86, 'FZLT, "Microsoft YaHei", sans-serif', 720);
+    ctx.fillText(p.cn, 92, 708);
+    ctx.fillStyle = accent;
+    ctx.font = '800 44px Refrigerator, RobotoCondensed, Arial, sans-serif';
+    drawWrappedText(ctx, p.en.toUpperCase(), 94, 760, 720, 50, 1);
+
+    ctx.fillStyle = 'rgba(244,241,235,.08)';
+    ctx.fillRect(92, 810, 760, 130);
+    ctx.strokeStyle = 'rgba(202,77,50,.45)';
+    ctx.strokeRect(92, 810, 760, 130);
+    ctx.fillStyle = text;
+    ctx.font = '700 34px FZLT, "Microsoft YaHei", sans-serif';
+    drawWrappedText(ctx, `“${p.punch}”`, 124, 862, 690, 46, 2);
+
+    drawPosterTags(ctx, p.tag.split(' ').filter(Boolean).slice(0, 3), 92, 986, 770);
+
+    ctx.fillStyle = muted;
+    ctx.font = '500 28px FZLT, "Microsoft YaHei", sans-serif';
+    drawWrappedText(ctx, p.summary, 92, 1088, 650, 42, 3);
+
+    const qr = createQrMatrix(shareUrl);
+    drawQr(ctx, qr, 790, 1084, 194);
+    ctx.fillStyle = text;
+    ctx.font = '700 26px FZLT, "Microsoft YaHei", sans-serif';
+    ctx.fillText('扫码测试你的暗区人格', 748, 1312);
+    ctx.fillStyle = muted;
+    ctx.font = '700 18px RobotoCondensed, Arial, sans-serif';
+    ctx.fillText('ARENA BREAKOUT · FAN-MADE FOR FUN', 92, 1356);
+  }
+
+  function drawCornerTicks(ctx, x, y, w, h, len){
+    ctx.beginPath();
+    ctx.moveTo(x, y + len); ctx.lineTo(x, y); ctx.lineTo(x + len, y);
+    ctx.moveTo(x + w - len, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + len);
+    ctx.moveTo(x + w, y + h - len); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - len, y + h);
+    ctx.moveTo(x + len, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - len);
+    ctx.stroke();
+  }
+
+  async function drawPersonaFigure(ctx, p){
+    const src = personaImage(p, 'cutout') || personaImage(p) || p.img;
+    try {
+      const img = await loadImage(src);
+      drawImageContain(ctx, img, 392, 172, 560, 540);
+    } catch {
+      ctx.fillStyle = 'rgba(202,77,50,.18)';
+      ctx.fillRect(420, 230, 450, 390);
+      ctx.fillStyle = '#f4f1eb';
+      ctx.font = '800 64px Refrigerator, RobotoCondensed, Arial, sans-serif';
+      ctx.fillText(p.code || 'MBTI', 500, 440);
+    }
+  }
+
+  function loadImage(src){
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  function drawImageContain(ctx, img, x, y, w, h){
+    const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
+    const iw = img.naturalWidth * scale;
+    const ih = img.naturalHeight * scale;
+    ctx.drawImage(img, x + (w - iw) / 2, y + (h - ih) / 2, iw, ih);
+  }
+
+  function drawPosterTags(ctx, tags, x, y, maxW){
+    let cx = x;
+    let cy = y;
+    ctx.font = '700 24px RobotoCondensed, FZLT, Arial, sans-serif';
+    tags.forEach(tag => {
+      const label = tag.replace(/^#/, '# ');
+      const tw = ctx.measureText(label).width + 34;
+      if (cx + tw > x + maxW){
+        cx = x;
+        cy += 48;
+      }
+      ctx.fillStyle = 'rgba(202,77,50,.16)';
+      ctx.fillRect(cx, cy, tw, 36);
+      ctx.strokeStyle = 'rgba(202,77,50,.55)';
+      ctx.strokeRect(cx, cy, tw, 36);
+      ctx.fillStyle = '#f4f1eb';
+      ctx.fillText(label, cx + 17, cy + 25);
+      cx += tw + 14;
+    });
+  }
+
+  function drawWrappedText(ctx, text, x, y, maxW, lineH, maxLines = Infinity){
+    const chars = [...String(text)];
+    let line = '';
+    let lines = [];
+    chars.forEach(ch => {
+      const test = line + ch;
+      if (ctx.measureText(test).width > maxW && line){
+        lines.push(line);
+        line = ch;
+      } else {
+        line = test;
+      }
+    });
+    if (line) lines.push(line);
+    lines = lines.slice(0, maxLines);
+    if (lines.length && lines.length === maxLines && chars.length){
+      while (ctx.measureText(lines[lines.length - 1] + '…').width > maxW){
+        lines[lines.length - 1] = lines[lines.length - 1].slice(0, -1);
+      }
+      if (lines.join('').length < chars.join('').length) lines[lines.length - 1] += '…';
+    }
+    lines.forEach((ln, i) => ctx.fillText(ln, x, y + i * lineH));
+  }
+
+  function fitFont(ctx, text, maxPx, family, maxW){
+    let px = maxPx;
+    do {
+      ctx.font = `700 ${px}px ${family}`;
+      if (ctx.measureText(text).width <= maxW) break;
+      px -= 3;
+    } while (px > 42);
+    return `700 ${px}px ${family}`;
+  }
+
+  function rarityEn(rarity){
+    return rarity === '普通' ? 'COMMON' : rarity === '稀有' ? 'RARE' : 'HIDDEN';
+  }
+
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1200);
+  }
+
+  async function copyShareText(text){
+    if (navigator.clipboard?.writeText){
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+
+  function createQrMatrix(text){
+    const version = 5;
+    const size = version * 4 + 17;
+    const dataCodewords = 108;
+    const eccCodewords = 26;
+    const bytes = new TextEncoder().encode(text);
+    const maxBytes = Math.floor((dataCodewords * 8 - 12) / 8);
+    const payload = bytes.length > maxBytes ? bytes.slice(0, maxBytes) : bytes;
+    const data = qrEncodeData(payload, dataCodewords);
+    const ecc = qrReedSolomon(data, eccCodewords);
+    const bits = [...data, ...ecc].flatMap(b => {
+      const out = [];
+      for (let i = 7; i >= 0; i--) out.push(((b >>> i) & 1) === 1);
+      return out;
+    });
+    const base = qrCreateBaseMatrix(size);
+    qrPlaceData(base.modules, base.func, bits, 0);
+    qrDrawFormat(base.modules, base.func, 0);
+    return base.modules;
+  }
+
+  function qrEncodeData(bytes, dataCodewords){
+    const bits = [];
+    const push = (val, len) => {
+      for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1);
+    };
+    push(0b0100, 4); // byte mode
+    push(bytes.length, 8);
+    bytes.forEach(b => push(b, 8));
+    const cap = dataCodewords * 8;
+    const terminator = Math.min(4, cap - bits.length);
+    push(0, terminator);
+    while (bits.length % 8) bits.push(0);
+
+    const out = [];
+    for (let i = 0; i < bits.length; i += 8){
+      let b = 0;
+      for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+      out.push(b);
+    }
+    for (let pad = 0; out.length < dataCodewords; pad ^= 1){
+      out.push(pad ? 0x11 : 0xec);
+    }
+    return out;
+  }
+
+  function qrCreateBaseMatrix(size){
+    const modules = Array.from({ length:size }, () => Array(size).fill(false));
+    const func = Array.from({ length:size }, () => Array(size).fill(false));
+    const set = (x, y, dark, isFunc = true) => {
+      if (x < 0 || y < 0 || x >= size || y >= size) return;
+      modules[y][x] = dark;
+      if (isFunc) func[y][x] = true;
+    };
+
+    [[0,0], [size - 7, 0], [0, size - 7]].forEach(([x, y]) => {
+      for (let dy = -1; dy <= 7; dy++){
+        for (let dx = -1; dx <= 7; dx++){
+          const xx = x + dx;
+          const yy = y + dy;
+          if (xx < 0 || yy < 0 || xx >= size || yy >= size) continue;
+          const inCore = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6;
+          const dark = inCore && (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
+          set(xx, yy, dark);
+        }
+      }
+    });
+
+    for (let i = 8; i < size - 8; i++){
+      const dark = i % 2 === 0;
+      set(6, i, dark);
+      set(i, 6, dark);
+    }
+
+    qrDrawAlignment(set, 30, 30);
+    set(8, size - 8, true);
+
+    for (let i = 0; i < 9; i++){
+      if (i !== 6){
+        set(8, i, false);
+        set(i, 8, false);
+      }
+    }
+    for (let i = 0; i < 8; i++){
+      set(size - 1 - i, 8, false);
+      set(8, size - 1 - i, false);
+    }
+
+    return { modules, func };
+  }
+
+  function qrDrawAlignment(set, cx, cy){
+    for (let dy = -2; dy <= 2; dy++){
+      for (let dx = -2; dx <= 2; dx++){
+        const d = Math.max(Math.abs(dx), Math.abs(dy));
+        set(cx + dx, cy + dy, d !== 1);
+      }
+    }
+  }
+
+  function qrPlaceData(modules, func, bits, mask){
+    const size = modules.length;
+    let bitIdx = 0;
+    let upward = true;
+    for (let right = size - 1; right >= 1; right -= 2){
+      if (right === 6) right--;
+      for (let vert = 0; vert < size; vert++){
+        const y = upward ? size - 1 - vert : vert;
+        for (let j = 0; j < 2; j++){
+          const x = right - j;
+          if (func[y][x]) continue;
+          const raw = bitIdx < bits.length ? bits[bitIdx++] : false;
+          modules[y][x] = Boolean(raw) !== qrMask(mask, x, y);
+        }
+      }
+      upward = !upward;
+    }
+  }
+
+  function qrMask(mask, x, y){
+    if (mask === 0) return (x + y) % 2 === 0;
+    if (mask === 1) return y % 2 === 0;
+    if (mask === 2) return x % 3 === 0;
+    if (mask === 3) return (x + y) % 3 === 0;
+    if (mask === 4) return (Math.floor(y / 2) + Math.floor(x / 3)) % 2 === 0;
+    if (mask === 5) return ((x * y) % 2 + (x * y) % 3) === 0;
+    if (mask === 6) return (((x * y) % 2 + (x * y) % 3) % 2) === 0;
+    return (((x + y) % 2 + (x * y) % 3) % 2) === 0;
+  }
+
+  function qrDrawFormat(modules, func, mask){
+    const size = modules.length;
+    const bits = qrFormatBits(mask);
+    const set = (x, y, i) => {
+      modules[y][x] = ((bits >>> i) & 1) !== 0;
+      func[y][x] = true;
+    };
+
+    for (let i = 0; i <= 5; i++) set(8, i, i);
+    set(8, 7, 6);
+    set(8, 8, 7);
+    set(7, 8, 8);
+    for (let i = 9; i < 15; i++) set(14 - i, 8, i);
+
+    for (let i = 0; i < 8; i++) set(size - 1 - i, 8, i);
+    for (let i = 8; i < 15; i++) set(8, size - 15 + i, i);
+    modules[size - 8][8] = true;
+  }
+
+  function qrFormatBits(mask){
+    const ecl = 1; // L
+    let data = (ecl << 3) | mask;
+    let rem = data << 10;
+    const poly = 0x537;
+    for (let i = 14; i >= 10; i--){
+      if (((rem >>> i) & 1) !== 0) rem ^= poly << (i - 10);
+    }
+    return ((data << 10) | (rem & 0x3ff)) ^ 0x5412;
+  }
+
+  function qrReedSolomon(data, degree){
+    const gen = qrRsGenerator(degree);
+    const rem = Array(degree).fill(0);
+    data.forEach(byte => {
+      const factor = byte ^ rem.shift();
+      rem.push(0);
+      gen.forEach((coef, i) => {
+        rem[i] ^= qrGfMul(coef, factor);
+      });
+    });
+    return rem;
+  }
+
+  function qrRsGenerator(degree){
+    let result = [1];
+    for (let i = 0; i < degree; i++){
+      const next = Array(result.length + 1).fill(0);
+      result.forEach((coef, j) => {
+        next[j] ^= qrGfMul(coef, 1);
+        next[j + 1] ^= qrGfMul(coef, qrGfPow(2, i));
+      });
+      result = next;
+    }
+    return result.slice(1);
+  }
+
+  function qrGfPow(x, power){
+    let y = 1;
+    for (let i = 0; i < power; i++) y = qrGfMul(y, x);
+    return y;
+  }
+
+  function qrGfMul(x, y){
+    let z = 0;
+    for (let i = 7; i >= 0; i--){
+      z = (z << 1) ^ ((z >>> 7) * 0x11d);
+      z ^= ((y >>> i) & 1) * x;
+    }
+    return z & 0xff;
+  }
+
+  function drawQr(ctx, modules, x, y, size){
+    const n = modules.length;
+    const quiet = 4;
+    const cell = Math.floor(size / (n + quiet * 2));
+    const real = cell * (n + quiet * 2);
+    ctx.fillStyle = '#f4f1eb';
+    ctx.fillRect(x, y, real, real);
+    ctx.fillStyle = '#101419';
+    modules.forEach((row, yy) => {
+      row.forEach((dark, xx) => {
+        if (dark) ctx.fillRect(x + (xx + quiet) * cell, y + (yy + quiet) * cell, cell, cell);
+      });
     });
   }
 

@@ -360,12 +360,12 @@ const QUESTIONS = [
     ]
   },
   {
-    q:'你背包里永远少不了的是？',
+    q:'你进图前最后会确认什么？',
     options:[
-      { text:'一堆投掷物，尤其是 GHO', w:{ extraction_camper:3, rat:1 } },
-      { text:'热成像瞄具',             w:{ thermal:3, headtap:1 } },
-      { text:'医疗包，多多益善',       w:{ babysitter:3, stash:1 } },
-      { text:'一把随时换的备用刀',     w:{ knife:3, w_maniac:1 } }
+      { text:'投掷物和战术道具，确保遇到情况有处理手段',     w:{ extraction_camper:2, squad_commander:1, safe_rusher:1, rat:1 } },
+      { text:'瞄具和视野配置，先看见对方比什么都重要',       w:{ thermal:2, sniper:2, headtap:1, lone_wolf:1 } },
+      { text:'药品和补给，容错空间必须留够',                 w:{ babysitter:2, stash:1, chad:1, lone_wolf:1 } },
+      { text:'背包空间和路线规划，能带走什么比带什么进去更重要', w:{ backpack:2, safe_rusher:2, loot_goblin:1, knife:1 } }
     ]
   },
   {
@@ -423,12 +423,12 @@ const QUESTIONS = [
     ]
   },
   {
-    q:'如果可以拥有一个超能力，你选？',
+    q:'如果只能强化一种能力，你会选？',
     options:[
-      { text:'热成像永久开启', w:{ thermal:3, headtap:1 } },
-      { text:'隐身三十秒',     w:{ rat:3, extraction_camper:2 } },
-      { text:'一击必杀',       w:{ headtap:3, apex:2, sniper:1 } },
-      { text:'无限空间背包',   w:{ backpack:3, loot_goblin:2, stash:1 } }
+      { text:'更强的信息获取能力',       w:{ thermal:2, squad_commander:1, rat:1, sniper:1 } },
+      { text:'更低的行动暴露风险',       w:{ rat:2, lone_wolf:2, extraction_camper:1 } },
+      { text:'枪枪爆头的精准度',         w:{ headtap:2, apex:2, sniper:1, chad:1 } },
+      { text:'更大的物资携带能力',       w:{ backpack:2, loot_goblin:2, stash:1, safe_rusher:1 } }
     ]
   },
   {
@@ -441,12 +441,12 @@ const QUESTIONS = [
     ]
   },
   {
-    q:'你最讨厌遇到什么样的敌人？',
+    q:'你最不想遇到哪种对手？',
     options:[
-      { text:'GHO 扔得比你腰还准的',           w:{ w_maniac:2, knife:2, safe_rusher:1 } },
-      { text:'永远不出现只打黑枪的',           w:{ chad:2, squad_commander:1, apex:1 } },
-      { text:'热成像全套，你连草都不敢蹲',     w:{ rat:3, sniper:2, knife:1 } },
-      { text:'枪枪爆头的',                     w:{ leg_meta:2, backpack:1, loot_goblin:1 } }
+      { text:'投掷物时机和落点都很准的对手',       w:{ w_maniac:1, knife:1, safe_rusher:1, extraction_camper:1 } },
+      { text:'始终不暴露位置，只在关键时刻开枪的对手', w:{ chad:1, squad_commander:1, apex:1, lone_wolf:1 } },
+      { text:'依赖高级侦察装备，让你很难藏身的对手', w:{ rat:2, sniper:1, thermal:1, knife:1 } },
+      { text:'枪法极准，正面对枪几乎不给机会的对手', w:{ leg_meta:1, backpack:1, loot_goblin:1, headtap:1, chad:1 } }
     ]
   },
   {
@@ -468,12 +468,12 @@ const QUESTIONS = [
     ]
   },
   {
-    q:'你最想被其他玩家叫做什么？',
+    q:'队伍陷入混乱时，你通常会怎么做？',
     options:[
-      { text:'大佬、神、顶点',     w:{ apex:3, chad:2, headtap:1 } },
-      { text:'指挥、队长、带飞',   w:{ squad_commander:3, babysitter:1 } },
-      { text:'刺客、阴影、绝影',   w:{ rat:3, sniper:2 } },
-      { text:'乐子人、开心果',     w:{ knife:3, leg_meta:2, w_maniac:1 } }
+      { text:'先整理信息，告诉队友该看哪里、怎么处理', w:{ squad_commander:2, apex:1, headtap:1, babysitter:1 } },
+      { text:'优先确认队友状态，能救就救，能补位就补位', w:{ babysitter:2, squad_commander:1, evita_simp:1, stash:1 } },
+      { text:'自己先稳住枪线，不急着说话',             w:{ lone_wolf:2, sniper:1, rat:1, chad:1 } },
+      { text:'主动拉出去试探，尽快打破僵局',           w:{ w_maniac:2, knife:1, chad:1, leg_meta:1 } }
     ]
   },
   {
@@ -486,12 +486,12 @@ const QUESTIONS = [
     ]
   },
   {
-    q:'真实朋友在现实中形容你，更像？',
+    q:'一局结束后，你最常做的事是？',
     options:[
-      { text:'精打细算的理财大师',    w:{ stash:3, backpack:2, loot_goblin:1 } },
-      { text:'话题中心的乐子人',      w:{ knife:3, w_maniac:2, leg_meta:1 } },
-      { text:'靠谱到可怕的组织者',    w:{ squad_commander:3, babysitter:2 } },
-      { text:'内敛高冷的扫地僧',      w:{ lone_wolf:3, sniper:1, apex:1, headtap:1 } }
+      { text:'复盘刚才的问题，想清楚下一局怎么改',       w:{ apex:1, headtap:1, lone_wolf:1, squad_commander:1, sniper:1 } },
+      { text:'整理仓库和物资，把收益最大化',             w:{ stash:2, backpack:2, loot_goblin:1, safe_rusher:1 } },
+      { text:'和队友讨论刚才的配合与决策',               w:{ squad_commander:2, babysitter:1, evita_simp:1, chad:1 } },
+      { text:'关注战绩、击杀和关键操作表现',             w:{ w_maniac:1, chad:1, headtap:1, apex:1, leg_meta:1 } }
     ]
   },
   {
